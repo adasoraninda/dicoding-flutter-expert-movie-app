@@ -15,15 +15,16 @@ import 'watchlist_movie_notifier_test.mocks.dart';
 void main() {
   late WatchlistNotifier provider;
   late MockGetWatchlistMovies mockGetWatchlistMovies;
-  late MockGetWatchlistTvShow mockGetWatchlistTvShow;
+  late MockGetWatchlistTvShows mockGetWatchlistTvShows;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
     mockGetWatchlistMovies = MockGetWatchlistMovies();
+    mockGetWatchlistTvShows = MockGetWatchlistTvShows();
     provider = WatchlistNotifier(
       getWatchlistMovies: mockGetWatchlistMovies,
-      getWatchlistTvShows: mockGetWatchlistTvShow,
+      getWatchlistTvShows: mockGetWatchlistTvShows,
     )..addListener(() {
         listenerCallCount += 1;
       });

@@ -3,6 +3,7 @@ import 'package:ditonton/common/failure.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movies/movie.dart';
 import 'package:ditonton/domain/usecases/movies/search_movies.dart';
+import 'package:ditonton/domain/usecases/tv_shows/search_tv_shows.dart';
 import 'package:ditonton/presentation/provider/search/search_notifier.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -10,17 +11,21 @@ import 'package:mockito/mockito.dart';
 
 import 'search_notifier_test.mocks.dart';
 
-@GenerateMocks([SearchMovies])
+@GenerateMocks([SearchMovies, SearchTvShows])
 void main() {
   late SearchNotifier provider;
   late MockSearchMovies mockSearchMovies;
+  late MockSearchTvShows mockSearchTvShows;
   late int listenerCallCount;
 
   setUp(() {
     listenerCallCount = 0;
     mockSearchMovies = MockSearchMovies();
-    provider = SearchNotifier(searchMovies: mockSearchMovies)
-      ..addListener(() {
+    mockSearchTvShows = MockSearchTvShows();
+    provider = SearchNotifier(
+      searchMovies: mockSearchMovies,
+      searchTvShows: mockSearchTvShows,
+    )..addListener(() {
         listenerCallCount += 1;
       });
   });
@@ -64,7 +69,7 @@ void main() {
       await provider.fetchMovieSearch(tQuery);
       // assert
       expect(provider.state, RequestState.Loaded);
-      expect(provider.searchResult, tMovieList);
+      expect(provider.searchMoviesResult, tMovieList);
       expect(listenerCallCount, 2);
     });
 
