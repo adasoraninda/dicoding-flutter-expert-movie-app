@@ -46,7 +46,9 @@ class WatchlistNotifier extends ChangeNotifier {
         notifyListeners();
       },
       (moviesData) {
-        _watchlistMovieState = RequestState.Loaded;
+        moviesData.isEmpty
+            ? _watchlistMovieState = RequestState.Empty
+            : _watchlistMovieState = RequestState.Loaded;
         _watchlistMovies = moviesData;
         notifyListeners();
       },
@@ -65,7 +67,9 @@ class WatchlistNotifier extends ChangeNotifier {
         notifyListeners();
       },
       (tvShowsData) {
-        _watchlistTvShowState = RequestState.Loaded;
+        tvShowsData.isEmpty
+            ? _watchlistTvShowState = RequestState.Empty
+            : _watchlistTvShowState = RequestState.Loaded;
         _watchlistTvShows = tvShowsData;
         notifyListeners();
       },

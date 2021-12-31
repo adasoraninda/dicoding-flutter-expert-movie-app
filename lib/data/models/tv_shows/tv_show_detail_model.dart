@@ -47,30 +47,21 @@ class TvShowDetailResponse extends Equatable {
             json["genres"].map((x) => GenreModel.fromJson(x))),
         homepage: json["homepage"],
         id: json["id"],
-        originalLanguage:
-            _formatDataStringNull(json["original_language"].toString()),
-        originalName: _formatDataStringNull(json["original_name"]),
-        overview: _formatDataStringNull(json['overview']),
+        originalLanguage: json["original_language"],
+        originalName: json["original_name"],
+        overview: json['overview'],
         popularity: json["popularity"].toDouble(),
         posterPath: json["poster_path"],
-        firstAirDate: _formatDataStringNull(json["first_air_date"]),
-        episodeRunTime:
-            _formatAirDate(List<int?>.from(json["episode_run_time"])),
-        status: _formatDataStringNull(json["status"]),
-        tagline: _formatDataStringNull(json["tagline"]),
-        name: _formatDataStringNull(json["name"]),
+        firstAirDate: json["first_air_date"],
+        episodeRunTime: List<int?>.from(json["episode_run_time"]).isEmpty
+            ? 0
+            : List<int?>.from(json["episode_run_time"]).first ?? 0,
+        status: json["status"],
+        tagline: json["tagline"],
+        name: json["name"],
         voteAverage: json["vote_average"].toDouble() ?? 0.0,
         voteCount: json["vote_count"] ?? 0,
       );
-
-  static String _formatDataStringNull(String? data) {
-    return data == null || data.isEmpty ? '-' : data;
-  }
-
-  static int _formatAirDate(List<int?> datas) {
-    if (datas.isEmpty) return 0;
-    return datas[0] ?? 0;
-  }
 
   Map<String, dynamic> toJson() => {
         "backdrop_path": backdropPath,

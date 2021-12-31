@@ -83,7 +83,6 @@ class TvShowModel extends Equatable {
         posterPath,
         firstAirDate,
         name,
-
         voteAverage,
         voteCount,
       ];

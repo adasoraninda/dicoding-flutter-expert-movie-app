@@ -71,7 +71,6 @@ class TvShowRepositoryImpl implements TvShowRepository {
   Future<Either<Failure, List<TvShow>>> getTvShowRecommendations(int id) async {
     try {
       final result = await remoteDataSource.getTvShowRecommendations(id);
-      if (result.isEmpty) return Left(EmptyFailure('Data not found 😞'));
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException {
       return Left(ServerFailure(''));
@@ -95,7 +94,6 @@ class TvShowRepositoryImpl implements TvShowRepository {
   @override
   Future<Either<Failure, List<TvShow>>> getWatchlistTvShows() async {
     final result = await localDataSource.getWatchlistTvShows();
-    if (result.isEmpty) return Left(DatabaseFailure('Watch list not found 😞'));
     return Right(result.map((data) => data.toEntity()).toList());
   }
 

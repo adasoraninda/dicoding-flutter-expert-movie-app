@@ -124,7 +124,6 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<Either<Failure, List<Movie>>> getWatchlistMovies() async {
     final result = await localDataSource.getWatchlistMovies();
-    if (result.isEmpty) return Left(DatabaseFailure('Watch list not found 😞'));
     return Right(result.map((data) => data.toEntity()).toList());
   }
 }

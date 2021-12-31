@@ -28,21 +28,27 @@ class MovieDetailNotifier extends ChangeNotifier {
   });
 
   late MovieDetail _movie;
+
   MovieDetail get movie => _movie;
 
   RequestState _movieState = RequestState.Empty;
+
   RequestState get movieState => _movieState;
 
   List<Movie> _movieRecommendations = [];
+
   List<Movie> get movieRecommendations => _movieRecommendations;
 
   RequestState _recommendationState = RequestState.Empty;
+
   RequestState get recommendationState => _recommendationState;
 
   String _message = '';
+
   String get message => _message;
 
   bool _isAddedtoWatchlist = false;
+
   bool get isAddedToWatchlist => _isAddedtoWatchlist;
 
   Future<void> fetchMovieDetail(int id) async {
@@ -66,7 +72,9 @@ class MovieDetailNotifier extends ChangeNotifier {
             _message = failure.message;
           },
           (movies) {
-            _recommendationState = RequestState.Loaded;
+            movies.isEmpty
+                ? _recommendationState = RequestState.Empty
+                : _recommendationState = RequestState.Loaded;
             _movieRecommendations = movies;
           },
         );
@@ -77,6 +85,7 @@ class MovieDetailNotifier extends ChangeNotifier {
   }
 
   String _watchlistMessage = '';
+
   String get watchlistMessage => _watchlistMessage;
 
   Future<void> addWatchlist(MovieDetail movie) async {

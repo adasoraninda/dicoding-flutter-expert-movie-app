@@ -13,10 +13,6 @@ class ServerFailure extends Failure {
   ServerFailure(String message) : super(message);
 }
 
-class EmptyFailure extends Failure {
-  EmptyFailure(String message) : super(message);
-}
-
 class ConnectionFailure extends Failure {
   ConnectionFailure(String message) : super(message);
 }

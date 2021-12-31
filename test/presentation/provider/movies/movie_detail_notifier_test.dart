@@ -141,6 +141,20 @@ void main() {
       expect(provider.movieRecommendations, tMovies);
     });
 
+    test('should update recommendation state to empty when data is empty',
+        () async {
+      // arrange
+      when(mockGetMovieDetail.execute(tId))
+          .thenAnswer((_) async => Right(testMovieDetail));
+      when(mockGetMovieRecommendations.execute(tId))
+          .thenAnswer((_) async => Right([]));
+      // act
+      await provider.fetchMovieDetail(tId);
+      // assert
+      expect(provider.recommendationState, RequestState.Empty);
+      expect(provider.movieRecommendations, []);
+    });
+
     test('should update error message when request in successful', () async {
       // arrange
       when(mockGetMovieDetail.execute(tId))

@@ -1,0 +1,138 @@
+{
+  "backdrop_path": "/weqx7IQSQz9EzNBNk5u6IJZrM6f.jpg",
+  "created_by": [
+    {
+      "id": 1734107,
+      "credit_id": "60ebbfffa6c1040073968fef",
+      "name": "Song Xiaofei",
+      "gender": 2,
+      "profile_path": "/fHurCVdn28QGYFQEIzMdyPagLEx.jpg"
+    },
+    {
+      "id": 3351908,
+      "credit_id": "61beaa392da8460060fcb40c",
+      "name": "烽火戏诸侯",
+      "gender": 2,
+      "profile_path": null
+    }
+  ],
+  "episode_run_time": [
+    40
+  ],
+  "first_air_date": "2021-12-15",
+  "genres": [
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 10765,
+      "name": "Sci-Fi & Fantasy"
+    }
+  ],
+  "homepage": "",
+  "id": 89614,
+  "in_production": true,
+  "languages": [
+    "ja",
+    "zh"
+  ],
+  "last_air_date": "2021-12-30",
+  "last_episode_to_air": {
+    "air_date": "2021-12-30",
+    "episode_number": 26,
+    "id": 3394782,
+    "name": "",
+    "overview": "",
+    "production_code": "",
+    "season_number": 1,
+    "still_path": null,
+    "vote_average": 0,
+    "vote_count": 0
+  },
+  "name": "Sword Snow Stride",
+  "next_episode_to_air": {
+    "air_date": "2021-12-31",
+    "episode_number": 27,
+    "id": 3394783,
+    "name": "",
+    "overview": "",
+    "production_code": "",
+    "season_number": 1,
+    "still_path": null,
+    "vote_average": 0,
+    "vote_count": 0
+  },
+  "networks": [
+    {
+      "name": "Tencent Video",
+      "id": 2007,
+      "logo_path": "/uBCIoV9AUGIdfXTrtJ6CRIxOZF6.png",
+      "origin_country": "CN"
+    }
+  ],
+  "number_of_episodes": 38,
+  "number_of_seasons": 1,
+  "origin_country": [
+    "CN"
+  ],
+  "original_language": "zh",
+  "original_name": "雪中悍刀行",
+  "overview": "",
+  "popularity": 1798.682,
+  "poster_path": "/avUmZDbbCcvnIFw0yrTM3A4CLlW.jpg",
+  "production_companies": [
+    {
+      "id": 150091,
+      "logo_path": null,
+      "name": "上海腾讯企鹅影视文化传播有限公司",
+      "origin_country": ""
+    },
+    {
+      "id": 115840,
+      "logo_path": null,
+      "name": "新丽电视传媒（北京）有限公司",
+      "origin_country": ""
+    },
+    {
+      "id": 142587,
+      "logo_path": null,
+      "name": "北京响巢国际传媒股份有限公司",
+      "origin_country": ""
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "CN",
+      "name": "China"
+    }
+  ],
+  "seasons": [
+    {
+      "air_date": "2021-12-15",
+      "episode_count": 38,
+      "id": 124582,
+      "name": "Season 1",
+      "overview": "",
+      "poster_path": "/hBEMppP61oJy3UUsDs5cp0G2gGI.jpg",
+      "season_number": 1
+    }
+  ],
+  "spoken_languages": [
+    {
+      "english_name": "Japanese",
+      "iso_639_1": "ja",
+      "name": "日本語"
+    },
+    {
+      "english_name": "Mandarin",
+      "iso_639_1": "zh",
+      "name": "普通话"
+    }
+  ],
+  "status": "Returning Series",
+  "tagline": "",
+  "type": "Scripted",
+  "vote_average": 6.2,
+  "vote_count": 6
+}

@@ -1,0 +1,24 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "backdrop_path": null,
+      "first_air_date": "",
+      "genre_ids": [],
+      "id": 153458,
+      "name": "Naruto Chikara",
+      "origin_country": [
+        "JP"
+      ],
+      "original_language": "ja",
+      "original_name": "Naruto Chikara",
+      "overview": "",
+      "popularity": 42.853,
+      "poster_path": null,
+      "vote_average": 0,
+      "vote_count": 0
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 6
+}
