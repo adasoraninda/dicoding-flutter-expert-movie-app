@@ -1,3 +1,4 @@
+import 'package:core/domain/usecases/movies/save_watchlist_movie.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -16,11 +17,11 @@ void main() {
   test('should save movie to the repository', () async {
     // arrange
     when(mockMovieRepository.saveWatchlist(tMovieDetail))
-        .thenAnswer((_) async => Right('Added to Watchlist'));
+        .thenAnswer((_) async => const Right('Added to Watchlist'));
     // act
     final result = await usecase.execute(tMovieDetail);
     // assert
     verify(mockMovieRepository.saveWatchlist(tMovieDetail));
-    expect(result, Right('Added to Watchlist'));
+    expect(result, const Right('Added to Watchlist'));
   });
 }

@@ -23,12 +23,6 @@ import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_show_status.dart'
 import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_shows.dart';
 import 'package:core/domain/usecases/tv_shows/remove_watchlist_tv_show.dart';
 import 'package:core/domain/usecases/tv_shows/save_watchlist_tv_show.dart';
-import 'package:core/presentation/provider/movies/movie_detail_notifier.dart';
-import 'package:core/presentation/provider/movies/popular_movies_notifier.dart';
-import 'package:core/presentation/provider/movies/top_rated_movies_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/popular_tv_shows_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/top_rated_tv_shows_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 
@@ -44,16 +38,6 @@ import 'package:mockito/annotations.dart';
   TvShowRepository,
   TvShowRemoteDataSource,
   TvShowLocalDataSource,
-
-  // Notifier Movie
-  MovieDetailNotifier,
-  PopularMoviesNotifier,
-  TopRatedMoviesNotifier,
-
-  // Notifier Tv Show
-  PopularTvShowsNotifier,
-  TopRatedTvShowsNotifier,
-  TvShowDetailNotifier,
 
   // Usecase Movie
   GetMovieDetail,

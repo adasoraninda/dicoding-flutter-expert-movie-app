@@ -1,10 +1,10 @@
 import 'package:core/core.dart';
+import 'package:core/presentation/bloc/home/home_cubit.dart';
 import 'package:core/presentation/pages/movies/home_movie_page.dart';
 import 'package:core/presentation/pages/tv_shows/home_tv_show_page.dart';
-import 'package:core/presentation/provider/home/home_notifier.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,14 +33,14 @@ class HomePageState extends State<HomePage> {
               leading: const Icon(Icons.movie),
               title: const Text('Movies'),
               onTap: () {
-                setFilmType(FilmType.Movies);
+                setFilmType(FilmType.movies);
               },
             ),
             ListTile(
               leading: const Icon(Icons.tv),
               title: const Text('Tv Shows'),
               onTap: () {
-                setFilmType(FilmType.TVshows);
+                setFilmType(FilmType.tvShows);
               },
             ),
             ListTile(
@@ -72,14 +72,13 @@ class HomePageState extends State<HomePage> {
         ],
       ),
       body: SafeArea(
-        child: Consumer<HomeNotifier>(builder: (context, provider, _) {
-          FilmType filmType = provider.filmType;
+        child: BlocBuilder<HomeCubit, FilmType>(builder: (context, state) {
           late Widget widget;
-          switch (filmType) {
-            case FilmType.Movies:
+          switch (state) {
+            case FilmType.movies:
               widget = const HomeMoviePage();
               break;
-            case FilmType.TVshows:
+            case FilmType.tvShows:
               widget = const HomeTvShowPage();
               break;
             default:
@@ -96,14 +95,14 @@ class HomePageState extends State<HomePage> {
   }
 
   void setFilmType(FilmType type) {
-    HomeNotifier provider = Provider.of<HomeNotifier>(context, listen: false);
+    HomeCubit cubit = context.read<HomeCubit>();
 
-    if (provider.checkType(type)) {
+    if (cubit.checkType(type)) {
       Navigator.pop(context);
       return;
     }
 
-    provider.changeFilmType(type);
+    cubit.type = type;
     Navigator.pop(context);
   }
 }

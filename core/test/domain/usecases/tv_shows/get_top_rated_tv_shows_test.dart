@@ -1,3 +1,5 @@
+import 'package:core/domain/entities/tv_shows/tv_show.dart';
+import 'package:core/domain/usecases/tv_shows/get_top_rated_tv_shows.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

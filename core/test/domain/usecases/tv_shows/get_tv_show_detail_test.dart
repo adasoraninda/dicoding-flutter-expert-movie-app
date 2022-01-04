@@ -1,6 +1,9 @@
+import 'package:core/domain/usecases/tv_shows/get_tv_show_detail.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+import '../../../dummy_data/dummy_objects.dart';
 
 void main() {
   late GetTvShowDetail usecase;
@@ -10,8 +13,6 @@ void main() {
     mockTvShowRepository = MockTvShowRepository();
     usecase = GetTvShowDetail(mockTvShowRepository);
   });
-
-  final tId = 1;
 
   test('should get tv show detail from the repository', () async {
     // arrange

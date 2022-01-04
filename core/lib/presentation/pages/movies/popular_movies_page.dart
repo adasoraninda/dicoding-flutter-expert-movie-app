@@ -1,8 +1,9 @@
-import 'package:core/presentation/provider/movies/popular_movies_notifier.dart';
+import 'package:core/domain/entities/movies/movie.dart';
+import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
+import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
-import 'package:core/utils/state_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopularMoviesPage extends StatefulWidget {
   const PopularMoviesPage({Key? key}) : super(key: key);
@@ -15,9 +16,8 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<PopularMoviesNotifier>(context, listen: false)
-            .fetchPopularMovies());
+    Future.microtask(
+        () => context.read<PopularMoviesCubit>().fetchPopularMovies());
   }
 
   @override
@@ -28,26 +28,34 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularMoviesNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+        child: BlocBuilder<PopularMoviesCubit, ResultState<List<Movie>>>(
+          builder: (context, state) {
+            if (state.data.isEmpty) {
+              return const Center(
+                child: Text('No Data'),
+              );
+            }
+
+            if (state.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            }
+
+            if (state.data.isNotEmpty) {
               return ListView.builder(
+                itemCount: state.data.length,
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
+                  final movie = state.data[index];
                   return MovieCard(movie);
                 },
-                itemCount: data.movies.length,
-              );
-            } else {
-              return Center(
-                key: const Key('error_message'),
-                child: Text(data.message),
               );
             }
+
+            return Center(
+              key: const Key('error_message'),
+              child: Text(state.error ?? ''),
+            );
           },
         ),
       ),

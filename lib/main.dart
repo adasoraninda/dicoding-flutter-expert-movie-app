@@ -1,6 +1,16 @@
 import 'package:about/about_page.dart';
 import 'package:core/core.dart';
+import 'package:core/presentation/bloc/home/home_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_cubit.dart';
+import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/watchlist_cubit.dart';
 import 'package:core/presentation/pages/home/home_page.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_list_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_list_cubit.dart';
 import 'package:core/presentation/pages/movies/movie_detail_page.dart';
 import 'package:core/presentation/pages/movies/popular_movies_page.dart';
 import 'package:core/presentation/pages/movies/top_rated_movies_page.dart';
@@ -8,23 +18,14 @@ import 'package:core/presentation/pages/tv_shows/popular_tv_show_page.dart';
 import 'package:core/presentation/pages/tv_shows/top_rated_tv_show_page.dart';
 import 'package:core/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:core/presentation/pages/watchlist/watchlist_page.dart';
-import 'package:core/presentation/provider/home/home_notifier.dart';
-import 'package:core/presentation/provider/movies/movie_detail_notifier.dart';
-import 'package:core/presentation/provider/movies/movie_list_notifier.dart';
-import 'package:core/presentation/provider/movies/popular_movies_notifier.dart';
-import 'package:core/presentation/provider/movies/top_rated_movies_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/popular_tv_shows_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/top_rated_tv_shows_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/tv_show_detail_notifier.dart';
-import 'package:core/presentation/provider/tv_shows/tv_show_list_notifier.dart';
-import 'package:core/presentation/provider/watchlist/watchlist_notifier.dart';
 import 'package:core/utils/routes.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:search/presentation/bloc/search/search_bloc.dart';
 import 'package:search/presentation/pages/search_page.dart';
-import 'package:search/presentation/provider/search_notifier.dart';
 
 void main() {
   di.init();
@@ -36,49 +37,48 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => di.locator<HomeNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<HomeCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<WatchlistCubit>(),
         ),
         // Search
-        ChangeNotifierProvider(
-          create: (_) => di.locator<SearchNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<SearchBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieListNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<MovieListCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieDetailNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedMoviesNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<PopularMoviesCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularMoviesNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedMoviesCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvShowListNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TvShowListCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvShowDetailNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TvShowDetailCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedTvShowsNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TopRatedTvShowsCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularTvShowsNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<PopularTvShowsCubit>(),
         ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.dark().copyWith(
-          colorScheme: kColorScheme,
           primaryColor: kRichBlack,
-          accentColor: kMikadoYellow,
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
+          colorScheme: kColorScheme.copyWith(secondary: kMikadoYellow),
         ),
         home: HomePage(),
         navigatorObservers: [routeObserver],
@@ -113,7 +113,7 @@ class MyApp extends StatelessWidget {
             case watchlistRoute:
               return CupertinoPageRoute(builder: (_) => WatchlistPage());
             // About Routes
-            case AboutPage.ROUTE_NAME:
+            case AboutPage.routeName:
               return CupertinoPageRoute(builder: (_) => AboutPage());
             // Else Routes
             default:

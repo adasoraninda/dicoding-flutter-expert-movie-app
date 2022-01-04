@@ -1,10 +1,5 @@
-import '../../../../core/lib/utils/state_enum.dart';
-import 'package:ditonton/domain/entities/tv_shows/tv_show.dart';
-import 'package:ditonton/presentation/pages/tv_shows/top_rated_tv_show_page.dart';
-import 'package:ditonton/presentation/provider/tv_shows/top_rated_tv_shows_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 

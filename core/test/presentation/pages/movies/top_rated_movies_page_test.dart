@@ -1,4 +1,3 @@
-import 'package:core/presentation/provider/movies/top_rated_movies_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

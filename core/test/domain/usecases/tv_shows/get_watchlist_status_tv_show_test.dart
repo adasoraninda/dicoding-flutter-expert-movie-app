@@ -1,3 +1,4 @@
+import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_show_status.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

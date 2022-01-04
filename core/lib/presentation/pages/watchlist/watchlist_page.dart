@@ -1,9 +1,10 @@
 import 'package:core/core.dart';
-import 'package:core/presentation/provider/watchlist/watchlist_notifier.dart';
+import 'package:core/presentation/bloc/watchlist/watchlist_cubit.dart';
+import 'package:core/presentation/bloc/watchlist_state.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
 import 'package:core/presentation/widgets/tv_show_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WatchlistPage extends StatefulWidget {
   const WatchlistPage({Key? key}) : super(key: key);
@@ -16,10 +17,9 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => Provider.of<WatchlistNotifier>(context, listen: false)
-          ..fetchWatchlistMovies()
-          ..fetchWatchlistTvShows());
+    Future.microtask(() => context.read<WatchlistCubit>()
+      ..fetchWatchlistMovies()
+      ..fetchWatchlistTvShows());
   }
 
   @override
@@ -30,7 +30,7 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
 
   @override
   void didPopNext() {
-    Provider.of<WatchlistNotifier>(context, listen: false)
+    context.read<WatchlistCubit>()
       ..fetchWatchlistMovies()
       ..fetchWatchlistTvShows();
   }
@@ -62,26 +62,34 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   Widget _buildWatchlistMoviePage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Consumer<WatchlistNotifier>(
-        builder: (context, data, child) {
-          if (data.watchlistMovieState == RequestState.loading) {
+      child: BlocBuilder<WatchlistCubit, WatchlistState>(
+        builder: (context, state) {
+          if (state.movieData.isEmpty) {
+            return const Center(
+              child: Text('No Data'),
+            );
+          }
+
+          if (state.movieLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (data.watchlistMovieState == RequestState.loaded) {
+          }
+
+          if (state.movieData.isNotEmpty) {
             return ListView.builder(
+              itemCount: state.movieData.length,
               itemBuilder: (context, index) {
-                final movie = data.watchlistMovies[index];
+                final movie = state.movieData[index];
                 return MovieCard(movie);
               },
-              itemCount: data.watchlistMovies.length,
-            );
-          } else {
-            return Center(
-              key: const Key('error_message'),
-              child: Text(data.message),
             );
           }
+
+          return Center(
+            key: const Key('error_message'),
+            child: Text(state.movieError ?? ''),
+          );
         },
       ),
     );
@@ -90,26 +98,34 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   Widget _buildWatchlistTvShowPage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Consumer<WatchlistNotifier>(
-        builder: (context, data, child) {
-          if (data.watchlistTvShowState == RequestState.loading) {
+      child: BlocBuilder<WatchlistCubit, WatchlistState>(
+        builder: (context, state) {
+          if (state.tvShowData.isEmpty) {
+            return const Center(
+              child: Text('No Data'),
+            );
+          }
+
+          if (state.tvShowLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (data.watchlistTvShowState == RequestState.loaded) {
+          }
+
+          if (state.tvShowData.isNotEmpty) {
             return ListView.builder(
+              itemCount: state.tvShowData.length,
               itemBuilder: (context, index) {
-                final tvShow = data.watchlistTvShows[index];
+                final tvShow = state.tvShowData[index];
                 return TvShowCard(tvShow);
               },
-              itemCount: data.watchlistTvShows.length,
-            );
-          } else {
-            return Center(
-              key: const Key('error_message'),
-              child: Text(data.message),
             );
           }
+
+          return Center(
+            key: const Key('error_message'),
+            child: Text(state.tvShowError ?? ''),
+          );
         },
       ),
     );

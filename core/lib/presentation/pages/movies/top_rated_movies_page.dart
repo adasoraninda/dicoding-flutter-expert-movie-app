@@ -1,8 +1,9 @@
-import 'package:core/core.dart';
-import 'package:core/presentation/provider/movies/top_rated_movies_notifier.dart';
+import 'package:core/domain/entities/movies/movie.dart';
+import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
+import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopRatedMoviesPage extends StatefulWidget {
   const TopRatedMoviesPage({Key? key}) : super(key: key);
@@ -15,9 +16,9 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<TopRatedMoviesNotifier>(context, listen: false)
-            .fetchTopRatedMovies());
+    Future.microtask(
+      () => context.read<TopRatedMoviesCubit>().fetchTopRatedMovies(),
+    );
   }
 
   @override
@@ -28,26 +29,34 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TopRatedMoviesNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+        child: BlocBuilder<TopRatedMoviesCubit, ResultState<List<Movie>>>(
+          builder: (context, state) {
+            if (state.data.isEmpty) {
+              return const Center(
+                child: Text('No Data'),
+              );
+            }
+
+            if (state.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            }
+
+            if (state.data.isNotEmpty) {
               return ListView.builder(
+                itemCount: state.data.length,
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
+                  final movie = state.data[index];
                   return MovieCard(movie);
                 },
-                itemCount: data.movies.length,
-              );
-            } else {
-              return Center(
-                key: const Key('error_message'),
-                child: Text(data.message),
               );
             }
+
+            return Center(
+              key: const Key('error_message'),
+              child: Text(state.error ?? ''),
+            );
           },
         ),
       ),

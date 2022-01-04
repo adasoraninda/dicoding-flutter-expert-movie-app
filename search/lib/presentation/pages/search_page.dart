@@ -2,8 +2,10 @@ import 'package:core/core.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
 import 'package:core/presentation/widgets/tv_show_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:search/presentation/provider/search_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:search/presentation/bloc/search/search_bloc.dart';
+import 'package:search/presentation/bloc/search/search_event.dart';
+import 'package:search/presentation/bloc/search/search_state.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -23,9 +25,11 @@ class SearchPage extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextField(
+                    onChanged: (query) {
+                      context.read<SearchBloc>().add(OnQueryChanged(query));
+                    },
                     onSubmitted: (query) {
-                      Provider.of<SearchNotifier>(context, listen: false)
-                          .fetchFilmSearch(query);
+                      context.read<SearchBloc>().add(OnQuerySubmit(query));
                     },
                     decoration: const InputDecoration(
                       hintText: 'Search title',
@@ -39,18 +43,18 @@ class SearchPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(6.0),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     borderRadius: BorderRadius.circular(4.0),
                   ),
-                  child:
-                      Consumer<SearchNotifier>(builder: (context, provider, _) {
+                  child: BlocBuilder<SearchBloc, SearchState>(
+                      builder: (context, state) {
                     return IconButton(
-                      icon: provider.filmType == FilmType.Movies
+                      icon: state.type == FilmType.movies
                           ? const Icon(Icons.movie)
                           : const Icon(Icons.tv),
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
-                        _buildDialog(context, provider);
+                        _buildDialog(context);
                       },
                     );
                   }),
@@ -62,9 +66,9 @@ class SearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<SearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.loading) {
+            BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state.tvLoading || state.movLoading) {
                   return const Expanded(
                     child: Center(
                       child: CircularProgressIndicator(),
@@ -72,48 +76,46 @@ class SearchPage extends StatelessWidget {
                   );
                 }
 
-                if (data.state == RequestState.error) {
+                if (state.tvError != null || state.movError != null) {
                   return Expanded(
                     child: Center(
-                      child: Text(data.message),
+                      child: Text(state.movError ?? state.tvError ?? ''),
                     ),
                   );
                 }
-
-                if (data.state == RequestState.loaded) {
-                  final isDataMovies = data.filmType == FilmType.Movies;
-                  final movies = data.searchMoviesResult;
-                  final tvShows = data.searchTvShowsResult;
-
-                  if ((!isDataMovies && tvShows.isEmpty) ||
-                      (isDataMovies && movies.isEmpty)) {
-                    return const Expanded(
-                      child: Center(
-                        child: Text('No Result'),
-                      ),
-                    );
-                  }
+                final filmType = state.type;
+                if (filmType == FilmType.movies && state.movies.isNotEmpty) {
+                  final movies = state.movies;
 
                   return Expanded(
                     child: ListView.builder(
-                      itemCount: isDataMovies ? movies.length : tvShows.length,
+                      itemCount: movies.length,
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final card = isDataMovies
-                            ? MovieCard(movies[index])
-                            : TvShowCard(tvShows[index]);
-
-                        return card;
+                        return MovieCard(movies[index]);
                       },
                     ),
                   );
-                }
+                } else if (filmType == FilmType.tvShows &&
+                    state.tvShows.isNotEmpty) {
+                  final tvShows = state.tvShows;
 
-                return const Expanded(
-                  child: Center(
-                    child: Text('No Result'),
-                  ),
-                );
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: tvShows.length,
+                      padding: const EdgeInsets.all(8),
+                      itemBuilder: (context, index) {
+                        return TvShowCard(tvShows[index]);
+                      },
+                    ),
+                  );
+                } else {
+                  return const Expanded(
+                    child: Center(
+                      child: Text('No Result'),
+                    ),
+                  );
+                }
               },
             ),
           ],
@@ -122,7 +124,10 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  void _buildDialog(BuildContext context, SearchNotifier provider) {
+  void _buildDialog(BuildContext context) {
+    final bloc = context.read<SearchBloc>();
+    final state = bloc.state;
+
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -137,28 +142,22 @@ class SearchPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               RadioListTile(
-                value: FilmType.Movies,
-                groupValue: provider.filmType,
+                value: FilmType.movies,
+                groupValue: state.type,
                 title: const Text('Movie'),
-                selected: provider.filmType == FilmType.Movies,
+                selected: state.type == FilmType.movies,
                 onChanged: (FilmType? value) {
-                  Provider.of<SearchNotifier>(
-                    context,
-                    listen: false,
-                  ).changeFilmType(value);
+                  bloc.add(SearchMovieTypeEvent());
                   Navigator.of(context).pop();
                 },
               ),
               RadioListTile(
-                value: FilmType.TVshows,
-                groupValue: provider.filmType,
+                value: FilmType.tvShows,
+                groupValue: state.type,
                 title: const Text('TV'),
-                selected: provider.filmType == FilmType.TVshows,
+                selected: state.type == FilmType.tvShows,
                 onChanged: (FilmType? value) {
-                  Provider.of<SearchNotifier>(
-                    context,
-                    listen: false,
-                  ).changeFilmType(value);
+                  bloc.add(SearchTvShowTypeEvent());
                   Navigator.of(context).pop();
                 },
               ),

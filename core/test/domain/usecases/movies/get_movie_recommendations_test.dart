@@ -1,6 +1,9 @@
+import 'package:core/domain/usecases/movies/get_movie_recommendations.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+
+import '../../../dummy_data/dummy_objects.dart';
 
 void main() {
   late GetMovieRecommendations usecase;
@@ -15,10 +18,10 @@ void main() {
       () async {
     // arrange
     when(mockMovieRepository.getMovieRecommendations(tId))
-        .thenAnswer((_) async => Right(tMovies));
+        .thenAnswer((_) async => Right(tMovieList));
     // act
     final result = await usecase.execute(tId);
     // assert
-    expect(result, Right(tMovies));
+    expect(result, Right(tMovieList));
   });
 }

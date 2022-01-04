@@ -1,8 +1,9 @@
-import 'package:core/core.dart';
-import 'package:core/presentation/provider/tv_shows/popular_tv_shows_notifier.dart';
+import 'package:core/domain/entities/tv_shows/tv_show.dart';
+import 'package:core/presentation/bloc/result_state.dart';
+import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
 import 'package:core/presentation/widgets/tv_show_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopularTvShowsPage extends StatefulWidget {
   const PopularTvShowsPage({Key? key}) : super(key: key);
@@ -15,9 +16,9 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<PopularTvShowsNotifier>(context, listen: false)
-            .fetchPopularTvShows());
+    Future.microtask(
+      () => context.read<PopularTvShowsCubit>().fetchPopularTvShows(),
+    );
   }
 
   @override
@@ -28,26 +29,34 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularTvShowsNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.loading) {
+        child: BlocBuilder<PopularTvShowsCubit, ResultState<List<TvShow>>>(
+          builder: (context, state) {
+            if (state.data.isEmpty) {
+              return const Center(
+                child: Text('No Data'),
+              );
+            }
+
+            if (state.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (data.state == RequestState.loaded) {
+            }
+
+            if (state.data.isNotEmpty) {
               return ListView.builder(
+                itemCount: state.data.length,
                 itemBuilder: (context, index) {
-                  final tvShow = data.tvShows[index];
+                  final tvShow = state.data[index];
                   return TvShowCard(tvShow);
                 },
-                itemCount: data.tvShows.length,
-              );
-            } else {
-              return Center(
-                key: const Key('error_message'),
-                child: Text(data.message),
               );
             }
+
+            return Center(
+              key: const Key('error_message'),
+              child: Text(state.error ?? ''),
+            );
           },
         ),
       ),
