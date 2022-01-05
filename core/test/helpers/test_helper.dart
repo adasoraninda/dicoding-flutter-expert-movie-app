@@ -23,6 +23,16 @@ import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_show_status.dart'
 import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_shows.dart';
 import 'package:core/domain/usecases/tv_shows/remove_watchlist_tv_show.dart';
 import 'package:core/domain/usecases/tv_shows/save_watchlist_tv_show.dart';
+import 'package:core/presentation/bloc/home/home_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_list_cubit.dart';
+import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_list_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/watchlist_cubit.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 
@@ -50,6 +60,18 @@ import 'package:mockito/annotations.dart';
   GetTopRatedMovies,
   GetWatchlistMovies,
 
+  // Bloc
+  HomeCubit,
+  MovieDetailCubit,
+  MovieListCubit,
+  PopularMoviesCubit,
+  TopRatedMoviesCubit,
+  PopularTvShowsCubit,
+  TopRatedTvShowsCubit,
+  TvShowDetailCubit,
+  TvShowListCubit,
+  WatchlistCubit,
+
   // Usecase Tv Show
   GetPopularTvShows,
   GetOnTheAirTvShows,
@@ -60,7 +82,6 @@ import 'package:mockito/annotations.dart';
   SaveWatchlistTvShow,
   RemoveWatchlistTvShow,
   GetWatchlistTvShows,
-
 ], customMocks: [
   MockSpec<http.Client>(as: #MockHttpClient)
 ])

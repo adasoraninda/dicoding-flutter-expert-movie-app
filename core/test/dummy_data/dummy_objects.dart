@@ -1,6 +1,9 @@
+import 'package:core/data/models/genre_model.dart';
+import 'package:core/data/models/movies/movie_detail_model.dart';
 import 'package:core/data/models/movies/movie_model.dart';
 import 'package:core/data/models/movies/movie_response.dart';
 import 'package:core/data/models/movies/movie_table.dart';
+import 'package:core/data/models/tv_shows/tv_show_detail_model.dart';
 import 'package:core/data/models/tv_shows/tv_show_model.dart';
 import 'package:core/data/models/tv_shows/tv_show_response.dart';
 import 'package:core/data/models/tv_shows/tv_show_table.dart';
@@ -29,6 +32,8 @@ const tMovieModel = MovieModel(
   voteAverage: 7.2,
   voteCount: 13507,
 );
+
+final tMovieModelList = [tMovieModel];
 
 const tMovieModelMap = {
   "adult": false,
@@ -87,6 +92,30 @@ final tMovieDetail = MovieDetail(
   voteCount: 1,
 );
 
+const tMovieDetailResponse = MovieDetailResponse(
+  adult: false,
+  backdropPath: 'backdropPath',
+  budget: 100,
+  genres: [GenreModel(id: 1, name: 'Action')],
+  homepage: "https://google.com",
+  id: 1,
+  imdbId: 'imdb1',
+  originalLanguage: 'en',
+  originalTitle: 'originalTitle',
+  overview: 'overview',
+  popularity: 1,
+  posterPath: 'posterPath',
+  releaseDate: 'releaseDate',
+  revenue: 12000,
+  runtime: 120,
+  status: 'Status',
+  tagline: 'Tagline',
+  title: 'title',
+  video: false,
+  voteAverage: 1,
+  voteCount: 1,
+);
+
 final tWatchlistMovie = Movie.watchlist(
   id: 1,
   title: 'title',
@@ -123,6 +152,8 @@ const tTvShowModel = TvShowModel(
   voteCount: 13507,
 );
 
+final tTvShowModelList = [tTvShowModel];
+
 final tTvShowModelMap = {
   "backdrop_path": '/muth4OYamXf41G2evdrLEg8d3om.jpg',
   "genre_ids": [14, 28],
@@ -141,6 +172,25 @@ final tTvShowModelMap = {
 final tTvShowListMap = {
   'results': [tTvShowModelMap]
 };
+
+const tTvShowDetailResponse = TvShowDetailResponse(
+  backdropPath: 'backdropPath',
+  genres: [GenreModel(id: 1, name: 'Action')],
+  homepage: "https://google.com",
+  id: 1,
+  originalLanguage: 'en',
+  originalName: 'originalName',
+  overview: 'overview',
+  popularity: 1,
+  posterPath: 'posterPath',
+  firstAirDate: 'firstAirDate',
+  episodeRunTime: 120,
+  status: 'Status',
+  tagline: 'Tagline',
+  name: 'name',
+  voteAverage: 1,
+  voteCount: 1,
+);
 
 const tTvShowResponse = TvShowResponse(tvShowList: <TvShowModel>[tTvShowModel]);
 
