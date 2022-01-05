@@ -32,6 +32,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
           builder: (context, state) {
             if (state.data.isEmpty) {
               return const Center(
+                key: Key('empty_message'),
                 child: Text('No Data'),
               );
             }

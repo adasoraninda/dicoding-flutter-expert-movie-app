@@ -132,16 +132,31 @@ class DetailContent extends StatelessWidget {
                                       .removeFromWatchlist(movie);
                                 }
 
-                                final message = context
+                                final messageSuccess = context
                                     .read<MovieDetailCubit>()
                                     .state
-                                    .watchlistMessage;
+                                    .watchlistMessageSuccess;
 
-                                if (message != null) {
+                                if (messageSuccess != null) {
                                   ScaffoldMessenger.of(context)
                                     ..hideCurrentSnackBar()
-                                    ..showSnackBar(
-                                        SnackBar(content: Text(message)));
+                                    ..showSnackBar(SnackBar(
+                                        content: Text(messageSuccess)));
+                                }
+
+                                final messageError = context
+                                    .read<MovieDetailCubit>()
+                                    .state
+                                    .watchlistMessageError;
+
+                                if (messageError != null) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Text(messageError),
+                                        );
+                                      });
                                 }
                               },
                               child: Row(

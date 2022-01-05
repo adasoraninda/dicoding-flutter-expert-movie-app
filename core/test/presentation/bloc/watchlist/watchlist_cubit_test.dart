@@ -56,7 +56,7 @@ void main() {
       'Should emit state [loading, error] when data is gotten unsuccessfully',
       build: () {
         when(mockGetWatchlistMovies.execute()).thenAnswer(
-            (_) async => const Left(ServerFailure('Server Failure')));
+            (_) async => const Left(DatabaseFailure('Can\'t get data')));
 
         return watchlistCubit;
       },
@@ -65,7 +65,7 @@ void main() {
       },
       expect: () => [
         const WatchlistState(true, false, [], [], null, null),
-        const WatchlistState(false, false, [], [], 'Server Failure', null),
+        const WatchlistState(false, false, [], [], 'Can\'t get data', null),
       ],
       verify: (bloc) {
         verify(mockGetWatchlistMovies.execute());
@@ -124,7 +124,7 @@ void main() {
       'Should emit state [loading, error] when data is gotten unsuccessfully',
       build: () {
         when(mockWatchlistTvShows.execute()).thenAnswer(
-            (_) async => const Left(ServerFailure('Server Failure')));
+            (_) async => const Left(DatabaseFailure('Can\'t get data')));
 
         return watchlistCubit;
       },
@@ -133,7 +133,7 @@ void main() {
       },
       expect: () => [
         const WatchlistState(false, true, [], [], null, null),
-        const WatchlistState(false, false, [], [], null, 'Server Failure'),
+        const WatchlistState(false, false, [], [], null, 'Can\'t get data'),
       ],
       verify: (bloc) {
         verify(mockWatchlistTvShows.execute());

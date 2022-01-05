@@ -9,7 +9,8 @@ class DetailState<T1, T2> extends Equatable {
     this.recData,
     this.recError,
     this.watchlistLoading,
-    this.watchlistMessage,
+    this.watchlistMessageSuccess,
+    this.watchlistMessageError,
     this.status,
   );
 
@@ -22,7 +23,8 @@ class DetailState<T1, T2> extends Equatable {
   final String? recError;
 
   final bool watchlistLoading;
-  final String? watchlistMessage;
+  final String? watchlistMessageSuccess;
+  final String? watchlistMessageError;
 
   final bool status;
 
@@ -32,9 +34,10 @@ class DetailState<T1, T2> extends Equatable {
       null,
       null,
       false,
-      [],
+      const [],
       null,
       false,
+      null,
       null,
       false,
     );
@@ -48,7 +51,8 @@ class DetailState<T1, T2> extends Equatable {
     List<T2>? recData,
     String? recError,
     bool? watchlistLoading,
-    String? watchlistMessage,
+    String? watchlistMessageSuccess,
+    String? watchlistMessageError,
     bool? status,
   }) {
     return DetailState(
@@ -59,7 +63,8 @@ class DetailState<T1, T2> extends Equatable {
       recData ?? this.recData,
       recError ?? this.recError,
       watchlistLoading ?? this.watchlistLoading,
-      watchlistMessage ?? this.watchlistMessage,
+      watchlistMessageSuccess,
+      watchlistMessageError,
       status ?? this.status,
     );
   }
@@ -73,7 +78,8 @@ class DetailState<T1, T2> extends Equatable {
         recData,
         recError,
         watchlistLoading,
-        watchlistMessage,
+        watchlistMessageSuccess,
+        watchlistMessageError,
         status,
       ];
 }

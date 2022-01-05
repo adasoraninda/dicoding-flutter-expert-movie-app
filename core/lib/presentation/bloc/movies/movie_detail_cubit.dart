@@ -54,7 +54,7 @@ class MovieDetailCubit extends Cubit<DetailState<MovieDetail, Movie>> {
       (failure) {
         emit((state.copyWith(
           recError: failure.message,
-          recLoading: true,
+          recLoading: false,
         )));
       },
       (data) {
@@ -81,13 +81,13 @@ class MovieDetailCubit extends Cubit<DetailState<MovieDetail, Movie>> {
     await result.fold(
       (failure) async {
         emit(state.copyWith(
-          watchlistMessage: failure.message,
+          watchlistMessageError: failure.message,
           watchlistLoading: false,
         ));
       },
       (data) async {
         emit(state.copyWith(
-          watchlistMessage: data,
+          watchlistMessageSuccess: data,
           watchlistLoading: false,
         ));
       },
@@ -104,13 +104,13 @@ class MovieDetailCubit extends Cubit<DetailState<MovieDetail, Movie>> {
     await result.fold(
       (failure) async {
         emit(state.copyWith(
-          watchlistMessage: failure.message,
+          watchlistMessageError: failure.message,
           watchlistLoading: false,
         ));
       },
       (data) async {
         emit(state.copyWith(
-          watchlistMessage: data,
+          watchlistMessageSuccess: data,
           watchlistLoading: false,
         ));
       },
@@ -123,7 +123,8 @@ class MovieDetailCubit extends Cubit<DetailState<MovieDetail, Movie>> {
     final result = await _getWatchListStatus.execute(id);
     emit(state.copyWith(
       status: result,
-      watchlistMessage: null,
+      watchlistMessageSuccess: null,
+      watchlistMessageError: null,
     ));
   }
 }

@@ -28,13 +28,13 @@ class TriResultListState<T> extends Equatable {
   factory TriResultListState.init() {
     return TriResultListState<T>(
       false,
-      [],
+      const [],
       null,
       false,
-      [],
+      const [],
       null,
       false,
-      [],
+      const [],
       null,
     );
   }
@@ -50,7 +50,7 @@ class TriResultListState<T> extends Equatable {
     List<T>? popularData,
     String? popularError,
   }) {
-    return TriResultListState(
+    return TriResultListState<T>(
       topLoading ?? this.topLoading,
       topData ?? this.topData,
       topError ?? this.topError,

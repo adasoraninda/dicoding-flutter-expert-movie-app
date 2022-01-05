@@ -20,7 +20,7 @@ class ResultState<T> extends Equatable {
     T? data,
     String? error,
   }) {
-    return ResultState(
+    return ResultState<T>(
       loading ?? this.loading,
       data ?? this.data,
       error ?? this.error,

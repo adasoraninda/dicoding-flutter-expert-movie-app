@@ -60,18 +60,6 @@ import 'package:mockito/annotations.dart';
   GetTopRatedMovies,
   GetWatchlistMovies,
 
-  // Bloc
-  HomeCubit,
-  MovieDetailCubit,
-  MovieListCubit,
-  PopularMoviesCubit,
-  TopRatedMoviesCubit,
-  PopularTvShowsCubit,
-  TopRatedTvShowsCubit,
-  TvShowDetailCubit,
-  TvShowListCubit,
-  WatchlistCubit,
-
   // Usecase Tv Show
   GetPopularTvShows,
   GetOnTheAirTvShows,

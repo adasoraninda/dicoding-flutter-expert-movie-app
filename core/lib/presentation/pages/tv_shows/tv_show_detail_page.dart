@@ -132,16 +132,31 @@ class DetailContent extends StatelessWidget {
                                       .removeFromWatchlist(tvShow);
                                 }
 
-                                final message = context
+                                final messageSuccess = context
                                     .read<TvShowDetailCubit>()
                                     .state
-                                    .watchlistMessage;
+                                    .watchlistMessageSuccess;
 
-                                if (message != null) {
+                                if (messageSuccess != null) {
                                   ScaffoldMessenger.of(context)
                                     ..hideCurrentSnackBar()
-                                    ..showSnackBar(
-                                        SnackBar(content: Text(message)));
+                                    ..showSnackBar(SnackBar(
+                                        content: Text(messageSuccess)));
+                                }
+
+                                final messageError = context
+                                    .read<TvShowDetailCubit>()
+                                    .state
+                                    .watchlistMessageError;
+
+                                if (messageError != null) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          content: Text(messageError),
+                                        );
+                                      });
                                 }
                               },
                               child: Row(
