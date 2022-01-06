@@ -51,10 +51,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.movies, [], [], false, false, null, null),
-        const SearchState(FilmType.movies, [], [], true, false, null, null),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: true,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
         SearchState(
-            FilmType.movies, tMovieList, const [], false, false, null, null),
+          type: FilmType.movies,
+          movies: tMovieList,
+          tvShows: const [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchMovies.execute(tQuery));
@@ -77,10 +100,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.movies, [], [], false, false, null, null),
-        const SearchState(FilmType.movies, [], [], true, false, null, null),
         const SearchState(
-            FilmType.movies, [], [], false, false, 'Server Failure', null),
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: true,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: 'Server Failure',
+          tvError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchMovies.execute(tQuery));
@@ -103,10 +149,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.tvShows, [], [], false, false, null, null),
-        const SearchState(FilmType.tvShows, [], [], false, true, null, null),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: true,
+          movError: null,
+          tvError: null,
+        ),
         SearchState(
-            FilmType.tvShows, const [], tTvShowList, false, false, null, null),
+          type: FilmType.tvShows,
+          movies: const [],
+          tvShows: tTvShowList,
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchTvShows.execute(tQuery));
@@ -129,10 +198,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.tvShows, [], [], false, false, null, null),
-        const SearchState(FilmType.tvShows, [], [], false, true, null, null),
         const SearchState(
-            FilmType.tvShows, [], [], false, false, null, 'Server Failure'),
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: true,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: 'Server Failure',
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchTvShows.execute(tQuery));
@@ -157,10 +249,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.movies, [], [], false, false, null, null),
-        const SearchState(FilmType.movies, [], [], true, false, null, null),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: true,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
         SearchState(
-            FilmType.movies, tMovieList, const [], false, false, null, null),
+          type: FilmType.movies,
+          movies: tMovieList,
+          tvShows: const [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchMovies.execute(tQuery));
@@ -183,10 +298,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.movies, [], [], false, false, null, null),
-        const SearchState(FilmType.movies, [], [], true, false, null, null),
         const SearchState(
-            FilmType.movies, [], [], false, false, 'Server Failure', null),
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: true,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: 'Server Failure',
+          tvError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchMovies.execute(tQuery));
@@ -209,10 +347,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.tvShows, [], [], false, false, null, null),
-        const SearchState(FilmType.tvShows, [], [], false, true, null, null),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: true,
+          movError: null,
+          tvError: null,
+        ),
         SearchState(
-            FilmType.tvShows, const [], tTvShowList, false, false, null, null),
+          type: FilmType.tvShows,
+          movies: const [],
+          tvShows: tTvShowList,
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchTvShows.execute(tQuery));
@@ -235,10 +396,33 @@ void main() {
       },
       wait: const Duration(milliseconds: 500),
       expect: () => [
-        const SearchState(FilmType.tvShows, [], [], false, false, null, null),
-        const SearchState(FilmType.tvShows, [], [], false, true, null, null),
         const SearchState(
-            FilmType.tvShows, [], [], false, false, null, 'Server Failure'),
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: true,
+          movError: null,
+          tvError: null,
+        ),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: 'Server Failure',
+        ),
       ],
       verify: (bloc) {
         verify(mockSearchTvShows.execute(tQuery));
@@ -256,7 +440,15 @@ void main() {
         bloc.add(SearchTvShowTypeEvent());
       },
       expect: () => [
-        const SearchState(FilmType.tvShows, [], [], false, false, null, null),
+        const SearchState(
+          type: FilmType.tvShows,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
       ],
     );
 
@@ -267,7 +459,15 @@ void main() {
         bloc.add(SearchMovieTypeEvent());
       },
       expect: () => [
-        const SearchState(FilmType.movies, [], [], false, false, null, null),
+        const SearchState(
+          type: FilmType.movies,
+          movies: [],
+          tvShows: [],
+          movLoading: false,
+          tvLoading: false,
+          movError: null,
+          tvError: null,
+        ),
       ],
     );
   });

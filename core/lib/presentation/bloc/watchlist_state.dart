@@ -3,14 +3,14 @@ import 'package:core/domain/entities/tv_shows/tv_show.dart';
 import 'package:equatable/equatable.dart';
 
 class WatchlistState extends Equatable {
-  const WatchlistState(
-    this.movieLoading,
-    this.tvShowLoading,
-    this.movieData,
-    this.tvShowData,
-    this.movieError,
-    this.tvShowError,
-  );
+  const WatchlistState({
+    required this.movieLoading,
+    required this.tvShowLoading,
+    required this.movieData,
+    required this.tvShowData,
+    required this.movieError,
+    required this.tvShowError,
+  });
 
   final bool movieLoading;
   final bool tvShowLoading;
@@ -20,7 +20,14 @@ class WatchlistState extends Equatable {
   final String? tvShowError;
 
   factory WatchlistState.init() {
-    return const WatchlistState(false, false, [], [], null, null);
+    return const WatchlistState(
+      movieLoading: false,
+      tvShowLoading: false,
+      movieData: [],
+      tvShowData: [],
+      movieError: null,
+      tvShowError: null,
+    );
   }
 
   WatchlistState copyWith({
@@ -32,12 +39,12 @@ class WatchlistState extends Equatable {
     String? tvShowError,
   }) {
     return WatchlistState(
-      movieLoading ?? this.movieLoading,
-      tvShowLoading ?? this.tvShowLoading,
-      movieData ?? this.movieData,
-      tvShowData ?? this.tvShowData,
-      movieError ?? this.movieError,
-      tvShowError ?? this.tvShowError,
+      movieLoading: movieLoading ?? this.movieLoading,
+      tvShowLoading: tvShowLoading ?? this.tvShowLoading,
+      movieData: movieData ?? this.movieData,
+      tvShowData: tvShowData ?? this.tvShowData,
+      movieError: movieError ?? this.movieError,
+      tvShowError: tvShowError ?? this.tvShowError,
     );
   }
 

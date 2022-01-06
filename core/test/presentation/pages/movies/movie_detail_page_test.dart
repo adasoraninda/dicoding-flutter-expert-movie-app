@@ -1,6 +1,7 @@
 import 'package:core/domain/entities/movies/movie.dart';
 import 'package:core/domain/entities/movies/movie_detail.dart';
 import 'package:core/presentation/bloc/detail_state.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_cubit.dart';
 import 'package:core/presentation/pages/movies/movie_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../dummy_data/dummy_objects.dart';
-import '../../../helpers/test_helper.mocks.dart';
+
+class MockMovieDetailCubit extends Mock implements MovieDetailCubit {}
 
 void main() {
   late MockMovieDetailCubit mockCubit;
@@ -30,7 +32,17 @@ void main() {
       'Watchlist button should display add icon when movie not added to watchlist',
       (WidgetTester tester) async {
     when(mockCubit.state).thenReturn(DetailState<MovieDetail, Movie>(
-        false, tMovieDetail, null, false, [], null, false, null, false));
+      detailLoading: false,
+      detailData: tMovieDetail,
+      detailError: null,
+      recLoading: false,
+      recData: [],
+      recError: null,
+      watchlistLoading: false,
+      watchlistMessageSuccess: null,
+      watchlistMessageError: null,
+      status: false,
+    ));
 
     final watchlistButtonIcon = find.byIcon(Icons.add);
 
@@ -43,7 +55,17 @@ void main() {
       'Watchlist button should dispay check icon when movie is added to wathclist',
       (WidgetTester tester) async {
     when(mockCubit.state).thenReturn(DetailState<MovieDetail, Movie>(
-        false, tMovieDetail, null, false, [], null, false, null, true));
+      detailLoading: false,
+      detailData: tMovieDetail,
+      detailError: null,
+      recLoading: false,
+      recData: [],
+      recError: null,
+      watchlistLoading: false,
+      watchlistMessageSuccess: null,
+      watchlistMessageError: null,
+      status: false,
+    ));
 
     final watchlistButtonIcon = find.byIcon(Icons.check);
 
@@ -56,15 +78,17 @@ void main() {
       'Watchlist button should display Snackbar when added to watchlist',
       (WidgetTester tester) async {
     when(mockCubit.state).thenReturn(DetailState<MovieDetail, Movie>(
-        false,
-        tMovieDetail,
-        null,
-        false,
-        [],
-        null,
-        false,
-        'Added to Watchlist',
-        false));
+      detailLoading: false,
+      detailData: tMovieDetail,
+      detailError: null,
+      recLoading: false,
+      recData: [],
+      recError: null,
+      watchlistLoading: false,
+      watchlistMessageSuccess: null,
+      watchlistMessageError: null,
+      status: false,
+    ));
 
     final watchlistButton = find.byType(ElevatedButton);
 

@@ -42,8 +42,22 @@ void main() {
         bloc.fetchWatchlistMovies();
       },
       expect: () => [
-        const WatchlistState(true, false, [], [], null, null),
-        WatchlistState(false, false, tMovieList, const [], null, null),
+        const WatchlistState(
+          movieLoading: true,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
+        WatchlistState(
+          movieLoading: false,
+          tvShowLoading: false,
+          movieData: tMovieList,
+          tvShowData: const [],
+          movieError: null,
+          tvShowError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockGetWatchlistMovies.execute());
@@ -64,8 +78,22 @@ void main() {
         bloc.fetchWatchlistMovies();
       },
       expect: () => [
-        const WatchlistState(true, false, [], [], null, null),
-        const WatchlistState(false, false, [], [], 'Can\'t get data', null),
+        const WatchlistState(
+          movieLoading: true,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: 'Can\'t get data',
+          tvShowError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockGetWatchlistMovies.execute());
@@ -86,8 +114,22 @@ void main() {
         bloc.fetchWatchlistMovies();
       },
       expect: () => [
-        const WatchlistState(true, false, [], [], null, null),
-        const WatchlistState(false, false, [], [], null, null),
+        const WatchlistState(
+          movieLoading: true,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockGetWatchlistMovies.execute());
@@ -110,8 +152,22 @@ void main() {
         bloc.fetchWatchlistTvShows();
       },
       expect: () => [
-        const WatchlistState(false, true, [], [], null, null),
-        WatchlistState(false, false, const [], tTvShowList, null, null),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: true,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
+        WatchlistState(
+          movieLoading: false,
+          tvShowLoading: false,
+          movieData: const [],
+          tvShowData: tTvShowList,
+          movieError: null,
+          tvShowError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockWatchlistTvShows.execute());
@@ -132,8 +188,22 @@ void main() {
         bloc.fetchWatchlistTvShows();
       },
       expect: () => [
-        const WatchlistState(false, true, [], [], null, null),
-        const WatchlistState(false, false, [], [], null, 'Can\'t get data'),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: true,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: 'Can\'t get data',
+        ),
       ],
       verify: (bloc) {
         verify(mockWatchlistTvShows.execute());
@@ -154,8 +224,22 @@ void main() {
         bloc.fetchWatchlistTvShows();
       },
       expect: () => [
-        const WatchlistState(false, true, [], [], null, null),
-        const WatchlistState(false, false, [], [], null, null),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: true,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
+        const WatchlistState(
+          movieLoading: false,
+          tvShowLoading: false,
+          movieData: [],
+          tvShowData: [],
+          movieError: null,
+          tvShowError: null,
+        ),
       ],
       verify: (bloc) {
         verify(mockWatchlistTvShows.execute());

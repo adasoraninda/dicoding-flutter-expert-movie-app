@@ -34,8 +34,16 @@ void main() {
       },
       act: (bloc) => bloc.fetchTopRatedMovies(),
       expect: () => [
-            const ResultState(true, <Movie>[], null),
-            ResultState(false, tMovieList, null),
+            const ResultState(
+              loading: true,
+              data: <Movie>[],
+              error: null,
+            ),
+            ResultState(
+              loading: false,
+              data: tMovieList,
+              error: null,
+            ),
           ],
       verify: (bloc) {
         verify(mockGetTopRatedMovies.execute());
@@ -52,8 +60,16 @@ void main() {
       },
       act: (bloc) => bloc.fetchTopRatedMovies(),
       expect: () => [
-            const ResultState(true, <Movie>[], null),
-            const ResultState(false, <Movie>[], 'Server Failure'),
+            const ResultState(
+              loading: true,
+              data: <Movie>[],
+              error: null,
+            ),
+            const ResultState(
+              loading: false,
+              data: <Movie>[],
+              error: 'Server Failure',
+            ),
           ],
       verify: (bloc) {
         verify(mockGetTopRatedMovies.execute());
@@ -70,8 +86,16 @@ void main() {
       },
       act: (bloc) => bloc.fetchTopRatedMovies(),
       expect: () => [
-            const ResultState(true, <Movie>[], null),
-            const ResultState(false, <Movie>[], null),
+            const ResultState(
+              loading: true,
+              data: <Movie>[],
+              error: null,
+            ),
+            const ResultState(
+              loading: false,
+              data: <Movie>[],
+              error: null,
+            ),
           ],
       verify: (bloc) {
         verify(mockGetTopRatedMovies.execute());

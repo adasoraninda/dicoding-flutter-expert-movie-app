@@ -1,18 +1,22 @@
 import 'package:equatable/equatable.dart';
 
 class ResultState<T> extends Equatable {
-  const ResultState(
-    this.loading,
-    this.data,
-    this.error,
-  );
+  const ResultState({
+    required this.loading,
+    required this.data,
+    required this.error,
+  });
 
   final bool loading;
   final T data;
   final String? error;
 
   factory ResultState.init(T data) {
-    return ResultState<T>(false, data, null);
+    return ResultState<T>(
+      loading: false,
+      data: data,
+      error: null,
+    );
   }
 
   ResultState<T> copyWith({
@@ -21,9 +25,9 @@ class ResultState<T> extends Equatable {
     String? error,
   }) {
     return ResultState<T>(
-      loading ?? this.loading,
-      data ?? this.data,
-      error ?? this.error,
+      loading: loading ?? this.loading,
+      data: data ?? this.data,
+      error: error ?? this.error,
     );
   }
 

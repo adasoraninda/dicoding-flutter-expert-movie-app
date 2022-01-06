@@ -34,8 +34,16 @@ void main() {
       },
       act: (bloc) => bloc.fetchPopularTvShows(),
       expect: () => [
-            const ResultState(true, <TvShow>[], null),
-            ResultState(false, tTvShowList, null),
+            const ResultState(
+              loading: true,
+              data: <TvShow>[],
+              error: null,
+            ),
+            ResultState(
+              loading: false,
+              data: tTvShowList,
+              error: null,
+            ),
           ],
       verify: (bloc) {
         verify(mockGetPopularTvShows.execute());
@@ -52,8 +60,16 @@ void main() {
       },
       act: (bloc) => bloc.fetchPopularTvShows(),
       expect: () => [
-            const ResultState(true, <TvShow>[], null),
-            const ResultState(false, <TvShow>[], 'Server Failure'),
+            const ResultState(
+              loading: true,
+              data: <TvShow>[],
+              error: null,
+            ),
+            const ResultState(
+              loading: false,
+              data: <TvShow>[],
+              error: 'Server Failure',
+            ),
           ],
       verify: (bloc) {
         verify(mockGetPopularTvShows.execute());
@@ -70,8 +86,16 @@ void main() {
       },
       act: (bloc) => bloc.fetchPopularTvShows(),
       expect: () => [
-            const ResultState(true, <TvShow>[], null),
-            const ResultState(false, <TvShow>[], null),
+            const ResultState(
+              loading: true,
+              data: <TvShow>[],
+              error: null,
+            ),
+            const ResultState(
+              loading: false,
+              data: <TvShow>[],
+              error: null,
+            ),
           ],
       verify: (bloc) {
         verify(mockGetPopularTvShows.execute());

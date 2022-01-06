@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 class TriResultListState<T> extends Equatable {
-  const TriResultListState(
-    this.topLoading,
-    this.topData,
-    this.topError,
-    this.nowLoading,
-    this.nowData,
-    this.nowError,
-    this.popularLoading,
-    this.popularData,
-    this.popularError,
-  );
+  const TriResultListState({
+    required this.topLoading,
+    required this.topData,
+    required this.topError,
+    required this.nowLoading,
+    required this.nowData,
+    required this.nowError,
+    required this.popularLoading,
+    required this.popularData,
+    required this.popularError,
+  });
 
   final bool topLoading;
   final List<T> topData;
@@ -27,15 +27,15 @@ class TriResultListState<T> extends Equatable {
 
   factory TriResultListState.init() {
     return TriResultListState<T>(
-      false,
-      const [],
-      null,
-      false,
-      const [],
-      null,
-      false,
-      const [],
-      null,
+      topLoading: false,
+      topData: const [],
+      topError: null,
+      nowLoading: false,
+      nowData: const [],
+      nowError: null,
+      popularLoading: false,
+      popularData: const [],
+      popularError: null,
     );
   }
 
@@ -51,15 +51,15 @@ class TriResultListState<T> extends Equatable {
     String? popularError,
   }) {
     return TriResultListState<T>(
-      topLoading ?? this.topLoading,
-      topData ?? this.topData,
-      topError ?? this.topError,
-      nowLoading ?? this.nowLoading,
-      nowData ?? this.nowData,
-      nowError ?? this.nowError,
-      popularLoading ?? this.popularLoading,
-      popularData ?? this.popularData,
-      popularError ?? this.popularError,
+      topLoading: topLoading ?? this.topLoading,
+      topData: topData ?? this.topData,
+      topError: topError ?? this.topError,
+      nowLoading: nowLoading ?? this.nowLoading,
+      nowData: nowData ?? this.nowData,
+      nowError: nowError ?? this.nowError,
+      popularLoading: popularLoading ?? this.popularLoading,
+      popularData: popularData ?? this.popularData,
+      popularError: popularError ?? this.popularError,
     );
   }
 

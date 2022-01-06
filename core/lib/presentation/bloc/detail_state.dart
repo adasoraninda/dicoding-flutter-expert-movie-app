@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
 class DetailState<T1, T2> extends Equatable {
-  const DetailState(
-    this.detailLoading,
-    this.detailData,
-    this.detailError,
-    this.recLoading,
-    this.recData,
-    this.recError,
-    this.watchlistLoading,
-    this.watchlistMessageSuccess,
-    this.watchlistMessageError,
-    this.status,
-  );
+  const DetailState({
+    required this.detailLoading,
+    required this.detailData,
+    required this.detailError,
+    required this.recLoading,
+    required this.recData,
+    required this.recError,
+    required this.watchlistLoading,
+    required this.watchlistMessageSuccess,
+    required this.watchlistMessageError,
+    required this.status,
+  });
 
   final bool detailLoading;
   final T1? detailData;
@@ -30,16 +30,16 @@ class DetailState<T1, T2> extends Equatable {
 
   factory DetailState.init() {
     return DetailState<T1, T2>(
-      false,
-      null,
-      null,
-      false,
-      const [],
-      null,
-      false,
-      null,
-      null,
-      false,
+      detailLoading: false,
+      detailData: null,
+      detailError: null,
+      recLoading: false,
+      recData: const [],
+      recError: null,
+      watchlistLoading: false,
+      watchlistMessageSuccess: null,
+      watchlistMessageError: null,
+      status: false,
     );
   }
 
@@ -56,16 +56,16 @@ class DetailState<T1, T2> extends Equatable {
     bool? status,
   }) {
     return DetailState(
-      detailLoading ?? this.detailLoading,
-      detailData ?? this.detailData,
-      detailError ?? this.detailError,
-      recLoading ?? this.recLoading,
-      recData ?? this.recData,
-      recError ?? this.recError,
-      watchlistLoading ?? this.watchlistLoading,
-      watchlistMessageSuccess,
-      watchlistMessageError,
-      status ?? this.status,
+      detailLoading: detailLoading ?? this.detailLoading,
+      detailData: detailData ?? this.detailData,
+      detailError: detailError ?? this.detailError,
+      recLoading: recLoading ?? this.recLoading,
+      recData: recData ?? this.recData,
+      recError: recError ?? this.recError,
+      watchlistLoading: watchlistLoading ?? this.watchlistLoading,
+      watchlistMessageSuccess: watchlistMessageSuccess,
+      watchlistMessageError: watchlistMessageError,
+      status: status ?? this.status,
     );
   }
 

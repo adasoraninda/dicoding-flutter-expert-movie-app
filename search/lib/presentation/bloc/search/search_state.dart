@@ -4,15 +4,15 @@ import 'package:core/utils/film_type_enum.dart';
 import 'package:equatable/equatable.dart';
 
 class SearchState extends Equatable {
-  const SearchState(
-    this.type,
-    this.movies,
-    this.tvShows,
-    this.movLoading,
-    this.tvLoading,
-    this.movError,
-    this.tvError,
-  );
+  const SearchState({
+    required this.type,
+    required this.movies,
+    required this.tvShows,
+    required this.movLoading,
+    required this.tvLoading,
+    required this.movError,
+    required this.tvError,
+  });
 
   final FilmType type;
 
@@ -27,13 +27,13 @@ class SearchState extends Equatable {
 
   factory SearchState.init() {
     return const SearchState(
-      FilmType.movies,
-      [],
-      [],
-      false,
-      false,
-      null,
-      null,
+      type: FilmType.movies,
+      movies: [],
+      tvShows: [],
+      movLoading: false,
+      tvLoading: false,
+      movError: null,
+      tvError: null,
     );
   }
 
@@ -47,13 +47,13 @@ class SearchState extends Equatable {
     String? tvError,
   }) {
     return SearchState(
-      type ?? this.type,
-      movies ?? this.movies,
-      tvShows ?? this.tvShows,
-      movLoading ?? this.movLoading,
-      tvLoading ?? this.tvLoading,
-      movError ?? this.movError,
-      tvError ?? this.tvError,
+      type: type ?? this.type,
+      movies: movies ?? this.movies,
+      tvShows: tvShows ?? this.tvShows,
+      movLoading: movLoading ?? this.movLoading,
+      tvLoading: tvLoading ?? this.tvLoading,
+      movError: movError ?? this.movError,
+      tvError: tvError ?? this.tvError,
     );
   }
 
