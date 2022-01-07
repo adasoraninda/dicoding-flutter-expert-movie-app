@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/domain/entities/movies/movie.dart';
-import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/now_playing_movies_cubit.dart';
 import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/utils/failure.dart';
 import 'package:dartz/dartz.dart';
@@ -11,28 +11,28 @@ import '../../../dummy_data/dummy_objects.dart';
 import '../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late PopularMoviesCubit popularMoviesCubit;
-  late MockGetPopularMovies mockGetPopularMovies;
+  late NowPlayingMoviesCubit nowPayingMoviesCubit;
+  late MockGetNowPlayingMovies mockGetNowPlayingMovies;
 
   setUp(() {
-    mockGetPopularMovies = MockGetPopularMovies();
-    popularMoviesCubit = PopularMoviesCubit(mockGetPopularMovies);
+    mockGetNowPlayingMovies = MockGetNowPlayingMovies();
+    nowPayingMoviesCubit = NowPlayingMoviesCubit(mockGetNowPlayingMovies);
   });
 
   test('Initialize state should be null', () {
-    expect(popularMoviesCubit.state, ResultState<List<Movie>>.init());
-    expect(popularMoviesCubit.state.data, null);
+    expect(nowPayingMoviesCubit.state, ResultState<List<Movie>>.init());
+    expect(nowPayingMoviesCubit.state.data, null);
   });
 
-  blocTest<PopularMoviesCubit, ResultState<List<Movie>>>(
+  blocTest<NowPlayingMoviesCubit, ResultState<List<Movie>>>(
       'Should emit state [loading, result] when fetch is successfull',
       build: () {
-        when(mockGetPopularMovies.execute())
+        when(mockGetNowPlayingMovies.execute())
             .thenAnswer((_) async => Right(tMovieList));
 
-        return popularMoviesCubit;
+        return nowPayingMoviesCubit;
       },
-      act: (bloc) => bloc.fetchPopularMovies(),
+      act: (bloc) => bloc.fetchNowPlayingMovies(),
       expect: () => [
             const ResultState<List<Movie>>(
               loading: true,
@@ -46,19 +46,19 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetPopularMovies.execute());
-        verifyNoMoreInteractions(mockGetPopularMovies);
+        verify(mockGetNowPlayingMovies.execute());
+        verifyNoMoreInteractions(mockGetNowPlayingMovies);
       });
 
-  blocTest<PopularMoviesCubit, ResultState<List<Movie>>>(
+  blocTest<NowPlayingMoviesCubit, ResultState<List<Movie>>>(
       'Should emit state [loading, error] when fetch is unsuccessfull',
       build: () {
-        when(mockGetPopularMovies.execute()).thenAnswer(
+        when(mockGetNowPlayingMovies.execute()).thenAnswer(
             (_) async => const Left(ServerFailure('Server Failure')));
 
-        return popularMoviesCubit;
+        return nowPayingMoviesCubit;
       },
-      act: (bloc) => bloc.fetchPopularMovies(),
+      act: (bloc) => bloc.fetchNowPlayingMovies(),
       expect: () => [
             const ResultState<List<Movie>>(
               loading: true,
@@ -72,19 +72,19 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetPopularMovies.execute());
-        verifyNoMoreInteractions(mockGetPopularMovies);
+        verify(mockGetNowPlayingMovies.execute());
+        verifyNoMoreInteractions(mockGetNowPlayingMovies);
       });
 
-  blocTest<PopularMoviesCubit, ResultState<List<Movie>>>(
+  blocTest<NowPlayingMoviesCubit, ResultState<List<Movie>>>(
       'Should emit state [loading, result empty] when fetch is successfull',
       build: () {
-        when(mockGetPopularMovies.execute())
+        when(mockGetNowPlayingMovies.execute())
             .thenAnswer((_) async => const Right([]));
 
-        return popularMoviesCubit;
+        return nowPayingMoviesCubit;
       },
-      act: (bloc) => bloc.fetchPopularMovies(),
+      act: (bloc) => bloc.fetchNowPlayingMovies(),
       expect: () => [
             const ResultState<List<Movie>>(
               loading: true,
@@ -98,7 +98,7 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetPopularMovies.execute());
-        verifyNoMoreInteractions(mockGetPopularMovies);
+        verify(mockGetNowPlayingMovies.execute());
+        verifyNoMoreInteractions(mockGetNowPlayingMovies);
       });
 }

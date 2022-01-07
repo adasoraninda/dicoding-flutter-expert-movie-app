@@ -52,8 +52,8 @@ class SearchState extends Equatable {
       tvShows: tvShows ?? this.tvShows,
       movLoading: movLoading ?? this.movLoading,
       tvLoading: tvLoading ?? this.tvLoading,
-      movError: movError ?? this.movError,
-      tvError: tvError ?? this.tvError,
+      movError: movError,
+      tvError: tvError,
     );
   }
 

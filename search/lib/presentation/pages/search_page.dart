@@ -76,13 +76,6 @@ class SearchPage extends StatelessWidget {
                   );
                 }
 
-                if (state.tvError != null || state.movError != null) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(state.movError ?? state.tvError ?? ''),
-                    ),
-                  );
-                }
                 final filmType = state.type;
                 if (filmType == FilmType.movies && state.movies.isNotEmpty) {
                   final movies = state.movies;
@@ -110,6 +103,14 @@ class SearchPage extends StatelessWidget {
                     ),
                   );
                 } else {
+                  if (state.tvError != null || state.movError != null) {
+                    return Expanded(
+                      child: Center(
+                        child: Text(state.movError ?? state.tvError ?? ''),
+                      ),
+                    );
+                  }
+
                   return const Expanded(
                     child: Center(
                       child: Text('No Result'),

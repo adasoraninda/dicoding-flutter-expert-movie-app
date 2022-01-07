@@ -3,8 +3,11 @@ import 'package:core/core.dart';
 import 'package:core/domain/entities/genre.dart';
 import 'package:core/domain/entities/movies/movie.dart';
 import 'package:core/domain/entities/movies/movie_detail.dart';
-import 'package:core/presentation/bloc/detail_state.dart';
 import 'package:core/presentation/bloc/movies/movie_detail_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,10 +27,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<MovieDetailCubit>()
-        ..fetchMovieDetail(widget.id)
-        ..fetchMovieDetailRecommendations(widget.id)
-        ..loadWatchlistStatus(widget.id);
+      context.read<MovieDetailCubit>().fetchMovieDetail(widget.id);
+      context
+          .read<MovieDetailRecommendationsCubit>()
+          .fetchMovieDetailRecommendations(widget.id);
+      context.read<MovieDetailStatusCubit>().loadWatchlistStatus(widget.id);
     });
   }
 
@@ -39,32 +43,44 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
         return true;
       },
       child: Scaffold(
-        body: BlocBuilder<MovieDetailCubit, DetailState<MovieDetail, Movie>>(
-          builder: (context, state) {
-            if (state.detailLoading) {
+        body: BlocListener<MovieDetailWatchlistCubit, ResultState<String?>>(
+          listener: (context, state) {
+            if (state.data != null) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(SnackBar(content: Text(state.data!)));
+            }
+
+            if (state.error != null) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(state.error!),
+                    );
+                  });
+            }
+          },
+          child: BlocBuilder<MovieDetailCubit, ResultState<MovieDetail>>(
+              builder: (context, state) {
+            if (state.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
 
-            if (state.detailData != null) {
-              final movie = state.detailData!;
-              final recommendations = state.recData;
-              final isAdded = state.status;
+            if (state.data != null) {
+              final movie = state.data;
 
               return SafeArea(
-                child: DetailContent(
-                  movie,
-                  recommendations,
-                  isAdded,
-                ),
+                child: DetailContent(movie!),
               );
             }
 
             return Center(
-              child: Text(state.detailError ?? ''),
+              child: Text(state.error ?? ''),
             );
-          },
+          }),
         ),
       ),
     );
@@ -73,12 +89,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 
 class DetailContent extends StatelessWidget {
   final MovieDetail movie;
-  final List<Movie> recommendations;
-  final bool isAddedWatchlist;
 
-  const DetailContent(this.movie, this.recommendations, this.isAddedWatchlist,
-      {Key? key})
-      : super(key: key);
+  const DetailContent(this.movie, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -120,55 +132,35 @@ class DetailContent extends StatelessWidget {
                               movie.title,
                               style: kHeading5,
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (!isAddedWatchlist) {
-                                  await context
-                                      .read<MovieDetailCubit>()
-                                      .addWatchlist(movie);
-                                } else {
-                                  await context
-                                      .read<MovieDetailCubit>()
-                                      .removeFromWatchlist(movie);
-                                }
+                            BlocBuilder<MovieDetailStatusCubit, bool>(
+                                builder: (context, state) {
+                              return ElevatedButton(
+                                onPressed: () async {
+                                  if (!state) {
+                                    await context
+                                        .read<MovieDetailWatchlistCubit>()
+                                        .addWatchlist(movie);
+                                  } else {
+                                    await context
+                                        .read<MovieDetailWatchlistCubit>()
+                                        .removeFromWatchlist(movie);
+                                  }
 
-                                final messageSuccess = context
-                                    .read<MovieDetailCubit>()
-                                    .state
-                                    .watchlistMessageSuccess;
-
-                                if (messageSuccess != null) {
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(SnackBar(
-                                        content: Text(messageSuccess)));
-                                }
-
-                                final messageError = context
-                                    .read<MovieDetailCubit>()
-                                    .state
-                                    .watchlistMessageError;
-
-                                if (messageError != null) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(messageError),
-                                        );
-                                      });
-                                }
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  isAddedWatchlist
-                                      ? const Icon(Icons.check)
-                                      : const Icon(Icons.add),
-                                  const Text('Watchlist'),
-                                ],
-                              ),
-                            ),
+                                  context
+                                      .read<MovieDetailStatusCubit>()
+                                      .loadWatchlistStatus(movie.id);
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    state
+                                        ? const Icon(Icons.check)
+                                        : const Icon(Icons.add),
+                                    const Text('Watchlist'),
+                                  ],
+                                ),
+                              );
+                            }),
                             Text(
                               _showGenres(movie.genres),
                             ),
@@ -202,27 +194,27 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            BlocBuilder<MovieDetailCubit,
-                                DetailState<MovieDetail, Movie>>(
+                            BlocBuilder<MovieDetailRecommendationsCubit,
+                                ResultState<List<Movie>>>(
                               builder: (context, state) {
-                                if (state.recLoading) {
+                                if (state.loading) {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
                                 }
 
-                                if (state.recError != null) {
-                                  return Text(state.recError!);
+                                if (state.error != null) {
+                                  return Text(state.error!);
                                 }
 
-                                if (state.recData.isNotEmpty) {
+                                if (state.data?.isNotEmpty == true) {
                                   return SizedBox(
                                     height: 150,
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: recommendations.length,
+                                      itemCount: state.data!.length,
                                       itemBuilder: (context, index) {
-                                        final movie = recommendations[index];
+                                        final movie = state.data![index];
                                         return Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(

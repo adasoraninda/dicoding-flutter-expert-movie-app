@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/domain/entities/tv_shows/tv_show.dart';
 import 'package:core/presentation/bloc/result_state.dart';
-import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/on_the_air_tv_shows_cubit.dart';
 import 'package:core/utils/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,28 +11,28 @@ import '../../../dummy_data/dummy_objects.dart';
 import '../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late TopRatedTvShowsCubit topRatedTvShowsCubit;
-  late MockGetTopRatedTvShows mockGetTopRatedTvShows;
+  late OnTheAirTvShowsCubit onTheAirTvShowsCubit;
+  late MockGetOnTheAirTvShows mockGetOnTheAirTvShows;
 
   setUp(() {
-    mockGetTopRatedTvShows = MockGetTopRatedTvShows();
-    topRatedTvShowsCubit = TopRatedTvShowsCubit(mockGetTopRatedTvShows);
+    mockGetOnTheAirTvShows = MockGetOnTheAirTvShows();
+    onTheAirTvShowsCubit = OnTheAirTvShowsCubit(mockGetOnTheAirTvShows);
   });
 
   test('Initialize state should be null', () {
-    expect(topRatedTvShowsCubit.state, ResultState<List<TvShow>>.init());
-    expect(topRatedTvShowsCubit.state.data, null);
+    expect(onTheAirTvShowsCubit.state, ResultState<List<TvShow>>.init());
+    expect(onTheAirTvShowsCubit.state.data, null);
   });
 
-  blocTest<TopRatedTvShowsCubit, ResultState<List<TvShow>>>(
+  blocTest<OnTheAirTvShowsCubit, ResultState<List<TvShow>>>(
       'Should emit state [loading, result] when fetch is successfull',
       build: () {
-        when(mockGetTopRatedTvShows.execute())
+        when(mockGetOnTheAirTvShows.execute())
             .thenAnswer((_) async => Right(tTvShowList));
 
-        return topRatedTvShowsCubit;
+        return onTheAirTvShowsCubit;
       },
-      act: (bloc) => bloc.fetchTopRatedTvShows(),
+      act: (bloc) => bloc.fetchOnTheAirTvShows(),
       expect: () => [
             const ResultState<List<TvShow>>(
               loading: true,
@@ -46,19 +46,19 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetTopRatedTvShows.execute());
-        verifyNoMoreInteractions(mockGetTopRatedTvShows);
+        verify(mockGetOnTheAirTvShows.execute());
+        verifyNoMoreInteractions(mockGetOnTheAirTvShows);
       });
 
-  blocTest<TopRatedTvShowsCubit, ResultState<List<TvShow>>>(
+  blocTest<OnTheAirTvShowsCubit, ResultState<List<TvShow>>>(
       'Should emit state [loading, error] when fetch is unsuccessfull',
       build: () {
-        when(mockGetTopRatedTvShows.execute()).thenAnswer(
+        when(mockGetOnTheAirTvShows.execute()).thenAnswer(
             (_) async => const Left(ServerFailure('Server Failure')));
 
-        return topRatedTvShowsCubit;
+        return onTheAirTvShowsCubit;
       },
-      act: (bloc) => bloc.fetchTopRatedTvShows(),
+      act: (bloc) => bloc.fetchOnTheAirTvShows(),
       expect: () => [
             const ResultState<List<TvShow>>(
               loading: true,
@@ -72,19 +72,19 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetTopRatedTvShows.execute());
-        verifyNoMoreInteractions(mockGetTopRatedTvShows);
+        verify(mockGetOnTheAirTvShows.execute());
+        verifyNoMoreInteractions(mockGetOnTheAirTvShows);
       });
 
-  blocTest<TopRatedTvShowsCubit, ResultState<List<TvShow>>>(
+  blocTest<OnTheAirTvShowsCubit, ResultState<List<TvShow>>>(
       'Should emit state [loading, result empty] when fetch is successfull',
       build: () {
-        when(mockGetTopRatedTvShows.execute())
-            .thenAnswer((_) async => const Right([]));
+        when(mockGetOnTheAirTvShows.execute())
+            .thenAnswer((_) async => const Right(<TvShow>[]));
 
-        return topRatedTvShowsCubit;
+        return onTheAirTvShowsCubit;
       },
-      act: (bloc) => bloc.fetchTopRatedTvShows(),
+      act: (bloc) => bloc.fetchOnTheAirTvShows(),
       expect: () => [
             const ResultState<List<TvShow>>(
               loading: true,
@@ -98,7 +98,7 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetTopRatedTvShows.execute());
-        verifyNoMoreInteractions(mockGetTopRatedTvShows);
+        verify(mockGetOnTheAirTvShows.execute());
+        verifyNoMoreInteractions(mockGetOnTheAirTvShows);
       });
 }

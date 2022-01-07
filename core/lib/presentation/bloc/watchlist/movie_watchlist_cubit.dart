@@ -1,18 +1,20 @@
-import 'package:core/domain/entities/tv_shows/tv_show.dart';
-import 'package:core/domain/usecases/tv_shows/get_top_rated_tv_shows.dart';
+import 'package:core/domain/entities/movies/movie.dart';
+import 'package:core/domain/usecases/movies/get_watchlist_movies.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../result_state.dart';
 
-class TopRatedTvShowsCubit extends Cubit<ResultState<List<TvShow>>> {
-  TopRatedTvShowsCubit(this._getTopRatedTvShows) : super(ResultState.init());
+class MovieWatchlistCubit extends Cubit<ResultState<List<Movie>>> {
+  MovieWatchlistCubit(
+    this._getWatchlistMovies,
+  ) : super(ResultState<List<Movie>>.init());
 
-  final GetTopRatedTvShows _getTopRatedTvShows;
+  final GetWatchlistMovies _getWatchlistMovies;
 
-  Future<void> fetchTopRatedTvShows() async {
+  Future<void> fetchWatchlistMovies() async {
     emit(state.copyWith(loading: true));
 
-    final result = await _getTopRatedTvShows.execute();
+    final result = await _getWatchlistMovies.execute();
 
     result.fold(
       (failure) => emit(state.copyWith(

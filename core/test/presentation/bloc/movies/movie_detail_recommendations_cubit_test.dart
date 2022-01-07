@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:core/domain/entities/movies/movie.dart';
-import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_recommendations_cubit.dart';
 import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/utils/failure.dart';
 import 'package:dartz/dartz.dart';
@@ -11,28 +11,30 @@ import '../../../dummy_data/dummy_objects.dart';
 import '../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late PopularMoviesCubit popularMoviesCubit;
-  late MockGetPopularMovies mockGetPopularMovies;
+  late MovieDetailRecommendationsCubit movieDetailRecommendationsCubit;
+  late MockGetMovieRecommendations mockGetMovieRecommendations;
 
   setUp(() {
-    mockGetPopularMovies = MockGetPopularMovies();
-    popularMoviesCubit = PopularMoviesCubit(mockGetPopularMovies);
+    mockGetMovieRecommendations = MockGetMovieRecommendations();
+    movieDetailRecommendationsCubit =
+        MovieDetailRecommendationsCubit(mockGetMovieRecommendations);
   });
 
   test('Initialize state should be null', () {
-    expect(popularMoviesCubit.state, ResultState<List<Movie>>.init());
-    expect(popularMoviesCubit.state.data, null);
+    expect(
+        movieDetailRecommendationsCubit.state, ResultState<List<Movie>>.init());
+    expect(movieDetailRecommendationsCubit.state.data, null);
   });
 
-  blocTest<PopularMoviesCubit, ResultState<List<Movie>>>(
+  blocTest<MovieDetailRecommendationsCubit, ResultState<List<Movie>>>(
       'Should emit state [loading, result] when fetch is successfull',
       build: () {
-        when(mockGetPopularMovies.execute())
+        when(mockGetMovieRecommendations.execute(tId))
             .thenAnswer((_) async => Right(tMovieList));
 
-        return popularMoviesCubit;
+        return movieDetailRecommendationsCubit;
       },
-      act: (bloc) => bloc.fetchPopularMovies(),
+      act: (bloc) => bloc.fetchMovieDetailRecommendations(tId),
       expect: () => [
             const ResultState<List<Movie>>(
               loading: true,
@@ -46,19 +48,19 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetPopularMovies.execute());
-        verifyNoMoreInteractions(mockGetPopularMovies);
+        verify(mockGetMovieRecommendations.execute(tId));
+        verifyNoMoreInteractions(mockGetMovieRecommendations);
       });
 
-  blocTest<PopularMoviesCubit, ResultState<List<Movie>>>(
+  blocTest<MovieDetailRecommendationsCubit, ResultState<List<Movie>>>(
       'Should emit state [loading, error] when fetch is unsuccessfull',
       build: () {
-        when(mockGetPopularMovies.execute()).thenAnswer(
+        when(mockGetMovieRecommendations.execute(tId)).thenAnswer(
             (_) async => const Left(ServerFailure('Server Failure')));
 
-        return popularMoviesCubit;
+        return movieDetailRecommendationsCubit;
       },
-      act: (bloc) => bloc.fetchPopularMovies(),
+      act: (bloc) => bloc.fetchMovieDetailRecommendations(tId),
       expect: () => [
             const ResultState<List<Movie>>(
               loading: true,
@@ -72,19 +74,19 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetPopularMovies.execute());
-        verifyNoMoreInteractions(mockGetPopularMovies);
+        verify(mockGetMovieRecommendations.execute(tId));
+        verifyNoMoreInteractions(mockGetMovieRecommendations);
       });
 
-  blocTest<PopularMoviesCubit, ResultState<List<Movie>>>(
+  blocTest<MovieDetailRecommendationsCubit, ResultState<List<Movie>>>(
       'Should emit state [loading, result empty] when fetch is successfull',
       build: () {
-        when(mockGetPopularMovies.execute())
-            .thenAnswer((_) async => const Right([]));
+        when(mockGetMovieRecommendations.execute(tId))
+            .thenAnswer((_) async => const Right(<Movie>[]));
 
-        return popularMoviesCubit;
+        return movieDetailRecommendationsCubit;
       },
-      act: (bloc) => bloc.fetchPopularMovies(),
+      act: (bloc) => bloc.fetchMovieDetailRecommendations(tId),
       expect: () => [
             const ResultState<List<Movie>>(
               loading: true,
@@ -98,7 +100,7 @@ void main() {
             ),
           ],
       verify: (bloc) {
-        verify(mockGetPopularMovies.execute());
-        verifyNoMoreInteractions(mockGetPopularMovies);
+        verify(mockGetMovieRecommendations.execute(tId));
+        verifyNoMoreInteractions(mockGetMovieRecommendations);
       });
 }

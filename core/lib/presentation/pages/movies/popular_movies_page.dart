@@ -30,7 +30,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<PopularMoviesCubit, ResultState<List<Movie>>>(
           builder: (context, state) {
-            if (state.data.isEmpty) {
+            if (state.data?.isEmpty == true) {
               return const Center(
                 key: Key('empty_message'),
                 child: Text('No Data'),
@@ -43,11 +43,11 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
               );
             }
 
-            if (state.data.isNotEmpty) {
+            if (state.data?.isNotEmpty == true) {
               return ListView.builder(
-                itemCount: state.data.length,
+                itemCount: state.data!.length,
                 itemBuilder: (context, index) {
-                  final movie = state.data[index];
+                  final movie = state.data![index];
                   return MovieCard(movie);
                 },
               );

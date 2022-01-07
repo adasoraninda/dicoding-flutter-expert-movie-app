@@ -6,12 +6,16 @@ import '../result_state.dart';
 
 class PopularMoviesCubit extends Cubit<ResultState<List<Movie>>> {
   PopularMoviesCubit(this._getPopularMoviesCubit)
-      : super(ResultState.init(const <Movie>[]));
+      : super(ResultState<List<Movie>>.init());
 
   final GetPopularMovies _getPopularMoviesCubit;
 
   Future<void> fetchPopularMovies() async {
-    emit(state.copyWith(loading: true));
+    emit(state.copyWith(
+      loading: true,
+      data: null,
+      error: null,
+    ));
 
     final result = await _getPopularMoviesCubit.execute();
     result.fold(

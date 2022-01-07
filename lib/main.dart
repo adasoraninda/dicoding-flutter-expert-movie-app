@@ -7,10 +7,7 @@ import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/tv_show_detail_cubit.dart';
-import 'package:core/presentation/bloc/watchlist/watchlist_cubit.dart';
 import 'package:core/presentation/pages/home/home_page.dart';
-import 'package:core/presentation/bloc/tv_shows/tv_show_list_cubit.dart';
-import 'package:core/presentation/bloc/movies/movie_list_cubit.dart';
 import 'package:core/presentation/pages/movies/movie_detail_page.dart';
 import 'package:core/presentation/pages/movies/popular_movies_page.dart';
 import 'package:core/presentation/pages/movies/top_rated_movies_page.dart';
@@ -26,6 +23,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:search/presentation/bloc/search/search_bloc.dart';
 import 'package:search/presentation/pages/search_page.dart';
+import 'package:core/presentation/bloc/movies/now_playing_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/movie_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/on_the_air_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_recommendations_cubit.dart';
 
 void main() {
   di.init();
@@ -40,36 +47,58 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<HomeCubit>(),
         ),
-        BlocProvider(
-          create: (_) => di.locator<WatchlistCubit>(),
-        ),
         // Search
         BlocProvider(
           create: (_) => di.locator<SearchBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<MovieListCubit>(),
+          create: (_) => di.locator<MovieDetailCubit>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<MovieDetailCubit>(),
+          create: (_) => di.locator<MovieDetailRecommendationsCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailStatusCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieDetailWatchlistCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<MovieWatchlistCubit>(),
         ),
         BlocProvider(
           create: (_) => di.locator<PopularMoviesCubit>(),
         ),
         BlocProvider(
+          create: (_) => di.locator<NowPlayingMoviesCubit>(),
+        ),
+        BlocProvider(
           create: (_) => di.locator<TopRatedMoviesCubit>(),
         ),
-        BlocProvider(
-          create: (_) => di.locator<TvShowListCubit>(),
-        ),
+
         BlocProvider(
           create: (_) => di.locator<TvShowDetailCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvShowDetailRecommendationsCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvShowDetailStatusCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvShowDetailWatchlistCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvShowWatchlistCubit>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TopRatedTvShowsCubit>(),
         ),
         BlocProvider(
           create: (_) => di.locator<PopularTvShowsCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<OnTheAirTvShowsCubit>(),
         ),
       ],
       child: MaterialApp(

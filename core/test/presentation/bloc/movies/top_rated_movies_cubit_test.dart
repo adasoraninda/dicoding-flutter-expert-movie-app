@@ -19,9 +19,9 @@ void main() {
     topRatedMoviesCubit = TopRatedMoviesCubit(mockGetTopRatedMovies);
   });
 
-  test('Initialize state should be empty', () {
-    expect(topRatedMoviesCubit.state, ResultState.init(const <Movie>[]));
-    expect(topRatedMoviesCubit.state.data, []);
+  test('Initialize state should be null', () {
+    expect(topRatedMoviesCubit.state, ResultState<List<Movie>>.init());
+    expect(topRatedMoviesCubit.state.data, null);
   });
 
   blocTest<TopRatedMoviesCubit, ResultState<List<Movie>>>(
@@ -34,12 +34,12 @@ void main() {
       },
       act: (bloc) => bloc.fetchTopRatedMovies(),
       expect: () => [
-            const ResultState(
+            const ResultState<List<Movie>>(
               loading: true,
-              data: <Movie>[],
+              data: null,
               error: null,
             ),
-            ResultState(
+            ResultState<List<Movie>>(
               loading: false,
               data: tMovieList,
               error: null,
@@ -60,14 +60,14 @@ void main() {
       },
       act: (bloc) => bloc.fetchTopRatedMovies(),
       expect: () => [
-            const ResultState(
+            const ResultState<List<Movie>>(
               loading: true,
-              data: <Movie>[],
+              data: null,
               error: null,
             ),
-            const ResultState(
+            const ResultState<List<Movie>>(
               loading: false,
-              data: <Movie>[],
+              data: null,
               error: 'Server Failure',
             ),
           ],
@@ -86,9 +86,9 @@ void main() {
       },
       act: (bloc) => bloc.fetchTopRatedMovies(),
       expect: () => [
-            const ResultState(
+            const ResultState<List<Movie>>(
               loading: true,
-              data: <Movie>[],
+              data: null,
               error: null,
             ),
             const ResultState(

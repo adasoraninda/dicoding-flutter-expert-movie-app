@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/domain/entities/movies/movie.dart';
-import 'package:core/presentation/bloc/movies/movie_list_cubit.dart';
-import 'package:core/presentation/bloc/tri_result_list_state.dart';
+import 'package:core/presentation/bloc/movies/now_playing_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
+import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/styles/text_styles.dart';
 import 'package:core/utils/constants.dart';
 import 'package:core/utils/routes.dart';
@@ -19,12 +21,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<MovieListCubit>()
-        ..fetchNowPlayingMovies()
-        ..fetchTopRatedMovies()
-        ..fetchPopularMovies(),
-    );
+    Future.microtask(() {
+      context.read<TopRatedMoviesCubit>().fetchTopRatedMovies();
+      context.read<NowPlayingMoviesCubit>().fetchNowPlayingMovies();
+      context.read<PopularMoviesCubit>().fetchPopularMovies();
+    });
   }
 
   @override
@@ -39,16 +40,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               'Now Playing',
               style: kHeading6,
             ),
-            BlocBuilder<MovieListCubit, TriResultListState<Movie>>(
+            BlocBuilder<NowPlayingMoviesCubit, ResultState<List<Movie>>>(
                 builder: (context, state) {
-              if (state.nowLoading) {
+              if (state.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              if (state.nowData.isNotEmpty) {
-                return MovieList(state.nowData);
+              if (state.data?.isNotEmpty == true) {
+                return MovieList(state.data!);
               }
 
               return const Text('Failed');
@@ -57,16 +58,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               title: 'Popular',
               onTap: () => Navigator.pushNamed(context, moviePopularRoute),
             ),
-            BlocBuilder<MovieListCubit, TriResultListState<Movie>>(
+            BlocBuilder<PopularMoviesCubit, ResultState<List<Movie>>>(
                 builder: (context, state) {
-              if (state.popularLoading) {
+              if (state.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              if (state.popularData.isNotEmpty) {
-                return MovieList(state.popularData);
+              if (state.data?.isNotEmpty == true) {
+                return MovieList(state.data!);
               }
 
               return const Text('Failed');
@@ -75,16 +76,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               title: 'Top Rated',
               onTap: () => Navigator.pushNamed(context, movieTopRatedRoute),
             ),
-            BlocBuilder<MovieListCubit, TriResultListState<Movie>>(
+            BlocBuilder<TopRatedMoviesCubit, ResultState<List<Movie>>>(
                 builder: (context, state) {
-              if (state.topLoading) {
+              if (state.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              if (state.topData.isNotEmpty) {
-                return MovieList(state.topData);
+              if (state.data?.isNotEmpty == true) {
+                return MovieList(state.data!);
               }
 
               return const Text('Failed');

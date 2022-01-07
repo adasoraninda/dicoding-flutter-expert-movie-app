@@ -3,8 +3,11 @@ import 'package:core/core.dart';
 import 'package:core/domain/entities/genre.dart';
 import 'package:core/domain/entities/tv_shows/tv_show.dart';
 import 'package:core/domain/entities/tv_shows/tv_show_detail.dart';
-import 'package:core/presentation/bloc/detail_state.dart';
+import 'package:core/presentation/bloc/result_state.dart';
 import 'package:core/presentation/bloc/tv_shows/tv_show_detail_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_watchlist_cubit.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,10 +27,11 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<TvShowDetailCubit>()
-        ..fetchTvShowDetail(widget.id)
-        ..fetchTvShowDetailRecommendations(widget.id)
-        ..loadWatchlistStatus(widget.id);
+      context.read<TvShowDetailCubit>().fetchTvShowDetail(widget.id);
+      context
+          .read<TvShowDetailRecommendationsCubit>()
+          .fetchTvShowDetailRecommendations(widget.id);
+      context.read<TvShowDetailStatusCubit>().loadWatchlistStatus(widget.id);
     });
   }
 
@@ -39,32 +43,44 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
         return true;
       },
       child: Scaffold(
-        body: BlocBuilder<TvShowDetailCubit, DetailState<TvShowDetail, TvShow>>(
-          builder: (context, state) {
-            if (state.detailLoading) {
+        body: BlocListener<TvShowDetailWatchlistCubit, ResultState<String?>>(
+          listener: (context, state) {
+            if (state.data != null) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(SnackBar(content: Text(state.data!)));
+            }
+
+            if (state.error != null) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(state.error!),
+                    );
+                  });
+            }
+          },
+          child: BlocBuilder<TvShowDetailCubit, ResultState<TvShowDetail>>(
+              builder: (context, state) {
+            if (state.loading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
 
-            if (state.detailData != null) {
-              final tvShow = state.detailData!;
-              final recommendations = state.recData;
-              final isAdded = state.status;
+            if (state.data != null) {
+              final tvShow = state.data;
 
               return SafeArea(
-                child: DetailContent(
-                  tvShow,
-                  recommendations,
-                  isAdded,
-                ),
+                child: DetailContent(tvShow!),
               );
             }
 
             return Center(
-              child: Text(state.detailError ?? ''),
+              child: Text(state.error ?? ''),
             );
-          },
+          }),
         ),
       ),
     );
@@ -73,12 +89,8 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
 
 class DetailContent extends StatelessWidget {
   final TvShowDetail tvShow;
-  final List<TvShow> recommendations;
-  final bool isAddedWatchlist;
 
-  const DetailContent(this.tvShow, this.recommendations, this.isAddedWatchlist,
-      {Key? key})
-      : super(key: key);
+  const DetailContent(this.tvShow, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -120,55 +132,35 @@ class DetailContent extends StatelessWidget {
                               tvShow.name,
                               style: kHeading5,
                             ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (!isAddedWatchlist) {
-                                  await context
-                                      .read<TvShowDetailCubit>()
-                                      .addWatchlist(tvShow);
-                                } else {
-                                  await context
-                                      .read<TvShowDetailCubit>()
-                                      .removeFromWatchlist(tvShow);
-                                }
+                            BlocBuilder<TvShowDetailStatusCubit, bool>(
+                                builder: (context, state) {
+                              return ElevatedButton(
+                                onPressed: () async {
+                                  if (!state) {
+                                    await context
+                                        .read<TvShowDetailWatchlistCubit>()
+                                        .addWatchlist(tvShow);
+                                  } else {
+                                    await context
+                                        .read<TvShowDetailWatchlistCubit>()
+                                        .removeFromWatchlist(tvShow);
+                                  }
 
-                                final messageSuccess = context
-                                    .read<TvShowDetailCubit>()
-                                    .state
-                                    .watchlistMessageSuccess;
-
-                                if (messageSuccess != null) {
-                                  ScaffoldMessenger.of(context)
-                                    ..hideCurrentSnackBar()
-                                    ..showSnackBar(SnackBar(
-                                        content: Text(messageSuccess)));
-                                }
-
-                                final messageError = context
-                                    .read<TvShowDetailCubit>()
-                                    .state
-                                    .watchlistMessageError;
-
-                                if (messageError != null) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(messageError),
-                                        );
-                                      });
-                                }
-                              },
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  isAddedWatchlist
-                                      ? const Icon(Icons.check)
-                                      : const Icon(Icons.add),
-                                  const Text('Watchlist'),
-                                ],
-                              ),
-                            ),
+                                  context
+                                      .read<TvShowDetailStatusCubit>()
+                                      .loadWatchlistStatus(tvShow.id);
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    state
+                                        ? const Icon(Icons.check)
+                                        : const Icon(Icons.add),
+                                    const Text('Watchlist'),
+                                  ],
+                                ),
+                              );
+                            }),
                             Text(
                               _showGenres(tvShow.genres),
                             ),
@@ -202,35 +194,35 @@ class DetailContent extends StatelessWidget {
                               'Recommendations',
                               style: kHeading6,
                             ),
-                            BlocBuilder<TvShowDetailCubit,
-                                DetailState<TvShowDetail, TvShow>>(
+                            BlocBuilder<TvShowDetailRecommendationsCubit,
+                                ResultState<List<TvShow>>>(
                               builder: (context, state) {
-                                if (state.recLoading) {
+                                if (state.loading) {
                                   return const Center(
                                     child: CircularProgressIndicator(),
                                   );
                                 }
 
-                                if (state.recError != null) {
-                                  return Text(state.recError!);
+                                if (state.error != null) {
+                                  return Text(state.error!);
                                 }
 
-                                if (state.recData.isNotEmpty) {
+                                if (state.data?.isNotEmpty == true) {
                                   return SizedBox(
                                     height: 150,
                                     child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: recommendations.length,
+                                      itemCount: state.data!.length,
                                       itemBuilder: (context, index) {
-                                        final movie = recommendations[index];
+                                        final tvShow = state.data![index];
                                         return Padding(
                                           padding: const EdgeInsets.all(4.0),
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.pushReplacementNamed(
                                                 context,
-                                                movieDetailRoute,
-                                                arguments: movie.id,
+                                                tvShowDetailRoute,
+                                                arguments: tvShow.id,
                                               );
                                             },
                                             child: ClipRRect(
@@ -240,7 +232,7 @@ class DetailContent extends StatelessWidget {
                                               ),
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                                    'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
                                                 placeholder: (context, url) =>
                                                     const Center(
                                                   child:
@@ -277,7 +269,9 @@ class DetailContent extends StatelessWidget {
                 ),
               );
             },
+            // initialChildSize: 0.5,
             minChildSize: 0.25,
+            // maxChildSize: 1.0,
           ),
         ),
         Padding(

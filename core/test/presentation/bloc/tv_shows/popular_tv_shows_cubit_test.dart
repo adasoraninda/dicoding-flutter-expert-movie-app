@@ -19,9 +19,9 @@ void main() {
     popularTvShowsCubit = PopularTvShowsCubit(mockGetPopularTvShows);
   });
 
-  test('Initialize state should be empty', () {
-    expect(popularTvShowsCubit.state, ResultState.init(const <TvShow>[]));
-    expect(popularTvShowsCubit.state.data, []);
+  test('Initialize state should be null', () {
+    expect(popularTvShowsCubit.state, ResultState<List<TvShow>>.init());
+    expect(popularTvShowsCubit.state.data, null);
   });
 
   blocTest<PopularTvShowsCubit, ResultState<List<TvShow>>>(
@@ -34,12 +34,12 @@ void main() {
       },
       act: (bloc) => bloc.fetchPopularTvShows(),
       expect: () => [
-            const ResultState(
+            const ResultState<List<TvShow>>(
               loading: true,
-              data: <TvShow>[],
+              data: null,
               error: null,
             ),
-            ResultState(
+            ResultState<List<TvShow>>(
               loading: false,
               data: tTvShowList,
               error: null,
@@ -60,14 +60,14 @@ void main() {
       },
       act: (bloc) => bloc.fetchPopularTvShows(),
       expect: () => [
-            const ResultState(
+            const ResultState<List<TvShow>>(
               loading: true,
-              data: <TvShow>[],
+              data: null,
               error: null,
             ),
-            const ResultState(
+            const ResultState<List<TvShow>>(
               loading: false,
-              data: <TvShow>[],
+              data: null,
               error: 'Server Failure',
             ),
           ],
@@ -80,18 +80,18 @@ void main() {
       'Should emit state [loading, result empty] when fetch is successfull',
       build: () {
         when(mockGetPopularTvShows.execute())
-            .thenAnswer((_) async => const Right([]));
+            .thenAnswer((_) async => const Right(<TvShow>[]));
 
         return popularTvShowsCubit;
       },
       act: (bloc) => bloc.fetchPopularTvShows(),
       expect: () => [
-            const ResultState(
+            const ResultState<List<TvShow>>(
               loading: true,
-              data: <TvShow>[],
+              data: null,
               error: null,
             ),
-            const ResultState(
+            const ResultState<List<TvShow>>(
               loading: false,
               data: <TvShow>[],
               error: null,

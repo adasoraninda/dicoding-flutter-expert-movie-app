@@ -1,6 +1,9 @@
 import 'package:core/core.dart';
-import 'package:core/presentation/bloc/watchlist/watchlist_cubit.dart';
-import 'package:core/presentation/bloc/watchlist_state.dart';
+import 'package:core/domain/entities/movies/movie.dart';
+import 'package:core/domain/entities/tv_shows/tv_show.dart';
+import 'package:core/presentation/bloc/result_state.dart';
+import 'package:core/presentation/bloc/watchlist/movie_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart';
 import 'package:core/presentation/widgets/movie_card_list.dart';
 import 'package:core/presentation/widgets/tv_show_card_list.dart';
 import 'package:flutter/material.dart';
@@ -17,9 +20,10 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<WatchlistCubit>()
-      ..fetchWatchlistMovies()
-      ..fetchWatchlistTvShows());
+    Future.microtask(() {
+      context.read<MovieWatchlistCubit>().fetchWatchlistMovies();
+      context.read<TvShowWatchlistCubit>().fetchWatchlistTvShows();
+    });
   }
 
   @override
@@ -30,9 +34,8 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
 
   @override
   void didPopNext() {
-    context.read<WatchlistCubit>()
-      ..fetchWatchlistMovies()
-      ..fetchWatchlistTvShows();
+    context.read<MovieWatchlistCubit>().fetchWatchlistMovies();
+    context.read<TvShowWatchlistCubit>().fetchWatchlistTvShows();
   }
 
   @override
@@ -62,25 +65,25 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   Widget _buildWatchlistMoviePage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: BlocBuilder<WatchlistCubit, WatchlistState>(
+      child: BlocBuilder<MovieWatchlistCubit, ResultState<List<Movie>>>(
         builder: (context, state) {
-          if (state.movieData.isEmpty) {
+          if (state.data?.isEmpty == true) {
             return const Center(
               child: Text('No Data'),
             );
           }
 
-          if (state.movieLoading) {
+          if (state.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (state.movieData.isNotEmpty) {
+          if (state.data?.isNotEmpty == true) {
             return ListView.builder(
-              itemCount: state.movieData.length,
+              itemCount: state.data!.length,
               itemBuilder: (context, index) {
-                final movie = state.movieData[index];
+                final movie = state.data![index];
                 return MovieCard(movie);
               },
             );
@@ -88,7 +91,7 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
 
           return Center(
             key: const Key('error_message'),
-            child: Text(state.movieError ?? ''),
+            child: Text(state.error ?? ''),
           );
         },
       ),
@@ -98,25 +101,25 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
   Widget _buildWatchlistTvShowPage() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: BlocBuilder<WatchlistCubit, WatchlistState>(
+      child: BlocBuilder<TvShowWatchlistCubit, ResultState<List<TvShow>>>(
         builder: (context, state) {
-          if (state.tvShowData.isEmpty) {
+          if (state.data?.isEmpty == true) {
             return const Center(
               child: Text('No Data'),
             );
           }
 
-          if (state.tvShowLoading) {
+          if (state.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          if (state.tvShowData.isNotEmpty) {
+          if (state.data?.isNotEmpty == true) {
             return ListView.builder(
-              itemCount: state.tvShowData.length,
+              itemCount: state.data!.length,
               itemBuilder: (context, index) {
-                final tvShow = state.tvShowData[index];
+                final tvShow = state.data![index];
                 return TvShowCard(tvShow);
               },
             );
@@ -124,7 +127,7 @@ class _WatchlistPageState extends State<WatchlistPage> with RouteAware {
 
           return Center(
             key: const Key('error_message'),
-            child: Text(state.tvShowError ?? ''),
+            child: Text(state.error ?? ''),
           );
         },
       ),

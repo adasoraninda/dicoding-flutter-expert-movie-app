@@ -31,7 +31,7 @@ class _TopRatedTvShowsPageState extends State<TopRatedTvShowsPage> {
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<TopRatedTvShowsCubit, ResultState<List<TvShow>>>(
           builder: (context, state) {
-            if (state.data.isEmpty) {
+            if (state.data?.isEmpty == true) {
               return const Center(
                 child: Text('No Data'),
               );
@@ -43,11 +43,11 @@ class _TopRatedTvShowsPageState extends State<TopRatedTvShowsPage> {
               );
             }
 
-            if (state.data.isNotEmpty) {
+            if (state.data?.isNotEmpty == true) {
               return ListView.builder(
-                itemCount: state.data.length,
+                itemCount: state.data!.length,
                 itemBuilder: (context, index) {
-                  final tvShow = state.data[index];
+                  final tvShow = state.data![index];
                   return TvShowCard(tvShow);
                 },
               );

@@ -1,20 +1,25 @@
 import 'package:core/domain/entities/tv_shows/tv_show.dart';
-import 'package:core/domain/usecases/tv_shows/get_popular_tv_shows.dart';
+import 'package:core/domain/usecases/tv_shows/get_on_the_air_tv_shows.dart';
 import 'package:core/presentation/bloc/result_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PopularTvShowsCubit extends Cubit<ResultState<List<TvShow>>> {
-  PopularTvShowsCubit(this._getPopularTvShows) : super(ResultState.init());
+class OnTheAirTvShowsCubit extends Cubit<ResultState<List<TvShow>>> {
+  OnTheAirTvShowsCubit(
+    this._getOnTheAirTvShows,
+  ) : super(ResultState<List<TvShow>>.init());
 
-  final GetPopularTvShows _getPopularTvShows;
+  final GetOnTheAirTvShows _getOnTheAirTvShows;
 
-  Future<void> fetchPopularTvShows() async {
+  Future<void> fetchOnTheAirTvShows() async {
     emit(state.copyWith(loading: true));
 
-    final result = await _getPopularTvShows.execute();
+    final result = await _getOnTheAirTvShows.execute();
 
     result.fold(
-      (failure) => emit(state.copyWith(error: failure.message, loading: false)),
+      (failure) => emit(state.copyWith(
+        error: failure.message,
+        loading: false,
+      )),
       (data) {
         if (data.isEmpty) {
           emit(state.copyWith(

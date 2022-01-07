@@ -1,23 +1,19 @@
 import 'package:core/domain/entities/movies/movie.dart';
-import 'package:core/domain/usecases/movies/get_top_rated_movies.dart';
+import 'package:core/domain/usecases/movies/get_now_playing_movies.dart';
+import 'package:core/presentation/bloc/result_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../result_state.dart';
+class NowPlayingMoviesCubit extends Cubit<ResultState<List<Movie>>> {
+  NowPlayingMoviesCubit(
+    this._getNowPlayingMovies,
+  ) : super(ResultState<List<Movie>>.init());
 
-class TopRatedMoviesCubit extends Cubit<ResultState<List<Movie>>> {
-  TopRatedMoviesCubit(this._getTopRatedMovies)
-      : super(ResultState<List<Movie>>.init());
+  final GetNowPlayingMovies _getNowPlayingMovies;
 
-  final GetTopRatedMovies _getTopRatedMovies;
+  Future<void> fetchNowPlayingMovies() async {
+    emit(state.copyWith(loading: true));
 
-  Future<void> fetchTopRatedMovies() async {
-    emit(state.copyWith(
-      loading: true,
-      data: null,
-      error: null,
-    ));
-
-    final result = await _getTopRatedMovies.execute();
+    final result = await _getNowPlayingMovies.execute();
     result.fold(
       (failure) {
         emit(state.copyWith(

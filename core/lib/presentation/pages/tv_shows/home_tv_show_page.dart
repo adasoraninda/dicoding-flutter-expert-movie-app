@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:core/domain/entities/tv_shows/tv_show.dart';
-import 'package:core/presentation/bloc/tri_result_list_state.dart';
-import 'package:core/presentation/bloc/tv_shows/tv_show_list_cubit.dart';
+import 'package:core/presentation/bloc/result_state.dart';
+import 'package:core/presentation/bloc/tv_shows/on_the_air_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
 import 'package:core/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,12 +20,11 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<TvShowListCubit>()
-        ..fetchPopularTvShows()
-        ..fetchTopRatedTvShows()
-        ..fetchOnTheAirTvShows(),
-    );
+    Future.microtask(() {
+      context.read<TopRatedTvShowsCubit>().fetchTopRatedTvShows();
+      context.read<OnTheAirTvShowsCubit>().fetchOnTheAirTvShows();
+      context.read<PopularTvShowsCubit>().fetchPopularTvShows();
+    });
   }
 
   @override
@@ -38,16 +39,16 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
               'On The Air',
               style: kHeading6,
             ),
-            BlocBuilder<TvShowListCubit, TriResultListState<TvShow>>(
+            BlocBuilder<OnTheAirTvShowsCubit, ResultState<List<TvShow>>>(
                 builder: (context, state) {
-              if (state.nowLoading) {
+              if (state.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              if (state.nowData.isNotEmpty) {
-                return TvShowList(state.nowData);
+              if (state.data?.isNotEmpty == true) {
+                return TvShowList(state.data!);
               }
 
               return const Text('Failed');
@@ -56,16 +57,16 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
               title: 'Popular',
               onTap: () => Navigator.pushNamed(context, tvShowPopularRoute),
             ),
-            BlocBuilder<TvShowListCubit, TriResultListState<TvShow>>(
+            BlocBuilder<PopularTvShowsCubit, ResultState<List<TvShow>>>(
                 builder: (context, state) {
-              if (state.popularLoading) {
+              if (state.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              if (state.popularData.isNotEmpty) {
-                return TvShowList(state.popularData);
+              if (state.data?.isNotEmpty == true) {
+                return TvShowList(state.data!);
               }
 
               return const Text('Failed');
@@ -74,16 +75,16 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
               title: 'Top Rated',
               onTap: () => Navigator.pushNamed(context, tvShowTopRatedRoute),
             ),
-            BlocBuilder<TvShowListCubit, TriResultListState<TvShow>>(
+            BlocBuilder<TopRatedTvShowsCubit, ResultState<List<TvShow>>>(
                 builder: (context, state) {
-              if (state.topLoading) {
+              if (state.loading) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              if (state.topData.isNotEmpty) {
-                return TvShowList(state.topData);
+              if (state.data?.isNotEmpty == true) {
+                return TvShowList(state.data!);
               }
 
               return const Text('Failed');

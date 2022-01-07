@@ -8,13 +8,13 @@ class ResultState<T> extends Equatable {
   });
 
   final bool loading;
-  final T data;
+  final T? data;
   final String? error;
 
-  factory ResultState.init(T data) {
+  factory ResultState.init() {
     return ResultState<T>(
       loading: false,
-      data: data,
+      data: null,
       error: null,
     );
   }
@@ -26,8 +26,8 @@ class ResultState<T> extends Equatable {
   }) {
     return ResultState<T>(
       loading: loading ?? this.loading,
-      data: data ?? this.data,
-      error: error ?? this.error,
+      data: data,
+      error: error,
     );
   }
 

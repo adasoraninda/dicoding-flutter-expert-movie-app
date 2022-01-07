@@ -27,14 +27,21 @@ import 'package:core/domain/usecases/tv_shows/remove_watchlist_tv_show.dart';
 import 'package:core/domain/usecases/tv_shows/save_watchlist_tv_show.dart';
 import 'package:core/presentation/bloc/home/home_cubit.dart';
 import 'package:core/presentation/bloc/movies/movie_detail_cubit.dart';
-import 'package:core/presentation/bloc/movies/movie_list_cubit.dart';
 import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
 import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/now_playing_movies_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/movie_watchlist_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/tv_show_detail_cubit.dart';
-import 'package:core/presentation/bloc/tv_shows/tv_show_list_cubit.dart';
-import 'package:core/presentation/bloc/watchlist/watchlist_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/on_the_air_tv_shows_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:search/domain/usecases/search_movies.dart';
@@ -46,44 +53,32 @@ final locator = GetIt.instance;
 void init() {
   // bloc
   locator.registerFactory(() => HomeCubit());
-  locator.registerFactory(() => WatchlistCubit(
-        locator(),
-        locator(),
-      ));
   locator.registerFactory(() => SearchBloc(
-        locator(),
-        locator(),
-      ));
-  locator.registerFactory(() => MovieListCubit(
-        locator(),
         locator(),
         locator(),
       ));
   locator.registerFactory(() => MovieDetailCubit(
         locator(),
-        locator(),
-        locator(),
-        locator(),
-        locator(),
       ));
+  locator.registerFactory(() => MovieDetailRecommendationsCubit(locator()));
+  locator.registerFactory(() => MovieDetailStatusCubit(locator()));
+  locator
+      .registerFactory(() => MovieDetailWatchlistCubit(locator(), locator()));
+  locator.registerFactory(() => MovieWatchlistCubit(locator()));
   locator.registerFactory(() => PopularMoviesCubit(locator()));
   locator.registerFactory(() => TopRatedMoviesCubit(locator()));
-
-  locator.registerFactory(() => TvShowListCubit(
-        locator(),
-        locator(),
-        locator(),
-      ));
+  locator.registerFactory(() => NowPlayingMoviesCubit(locator()));
   locator.registerFactory(() => TvShowDetailCubit(
-        locator(),
-        locator(),
-        locator(),
-        locator(),
         locator(),
       ));
   locator.registerFactory(() => TopRatedTvShowsCubit(locator()));
   locator.registerFactory(() => PopularTvShowsCubit(locator()));
-
+  locator.registerFactory(() => OnTheAirTvShowsCubit(locator()));
+  locator.registerFactory(() => TvShowDetailRecommendationsCubit(locator()));
+  locator.registerFactory(() => TvShowDetailStatusCubit(locator()));
+  locator
+      .registerFactory(() => TvShowDetailWatchlistCubit(locator(), locator()));
+  locator.registerFactory(() => TvShowWatchlistCubit(locator()));
   // use case movie
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
   locator.registerLazySingleton(() => GetPopularMovies(locator()));
