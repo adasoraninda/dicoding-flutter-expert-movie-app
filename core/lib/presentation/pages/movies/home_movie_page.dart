@@ -44,7 +44,9 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 builder: (context, state) {
               if (state.loading) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('now_playing_loading'),
+                  ),
                 );
               }
 
@@ -52,7 +54,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 return MovieList(state.data!);
               }
 
-              return const Text('Failed');
+              return const Text(
+                'Failed',
+                key: Key('text_now_playing_error'),
+              );
             }),
             _buildSubHeading(
               title: 'Popular',
@@ -62,7 +67,9 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 builder: (context, state) {
               if (state.loading) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('popular_loading'),
+                  ),
                 );
               }
 
@@ -70,7 +77,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 return MovieList(state.data!);
               }
 
-              return const Text('Failed');
+              return const Text(
+                'Failed',
+                key: Key('text_popular_error'),
+              );
             }),
             _buildSubHeading(
               title: 'Top Rated',
@@ -80,7 +90,9 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 builder: (context, state) {
               if (state.loading) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('top_rated_loading'),
+                  ),
                 );
               }
 
@@ -88,7 +100,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 return MovieList(state.data!);
               }
 
-              return const Text('Failed');
+              return const Text(
+                'Failed',
+                key: Key('text_top_rated_error'),
+              );
             }),
           ],
         ),

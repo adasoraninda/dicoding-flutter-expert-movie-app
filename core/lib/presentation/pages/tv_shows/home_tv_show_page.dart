@@ -43,7 +43,9 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 builder: (context, state) {
               if (state.loading) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('on_the_air_loading'),
+                  ),
                 );
               }
 
@@ -51,7 +53,10 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 return TvShowList(state.data!);
               }
 
-              return const Text('Failed');
+              return const Text(
+                'Failed',
+                key: Key('text_on_the_air_error'),
+              );
             }),
             _buildSubHeading(
               title: 'Popular',
@@ -61,7 +66,9 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 builder: (context, state) {
               if (state.loading) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('popular_loading'),
+                  ),
                 );
               }
 
@@ -69,7 +76,10 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 return TvShowList(state.data!);
               }
 
-              return const Text('Failed');
+              return const Text(
+                'Failed',
+                key: Key('text_popular_error'),
+              );
             }),
             _buildSubHeading(
               title: 'Top Rated',
@@ -79,7 +89,9 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 builder: (context, state) {
               if (state.loading) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('top_rated_loading'),
+                  ),
                 );
               }
 
@@ -87,7 +99,10 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 return TvShowList(state.data!);
               }
 
-              return const Text('Failed');
+              return const Text(
+                'Failed',
+                key: Key('text_top_rated_error'),
+              );
             }),
           ],
         ),

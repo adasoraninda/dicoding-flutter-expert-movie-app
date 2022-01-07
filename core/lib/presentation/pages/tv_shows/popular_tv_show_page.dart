@@ -33,6 +33,7 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
           builder: (context, state) {
             if (state.data?.isEmpty == true) {
               return const Center(
+                key: Key('empty_message'),
                 child: Text('No Data'),
               );
             }

@@ -8,76 +8,110 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../dummy_data/dummy_objects.dart';
+import '../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  // late MockTopRatedMoviesCubit mockCubit;
+  late MockTopRatedMoviesCubit mockCubit;
 
-  // setUp(() {
-  //   mockCubit = MockTopRatedMoviesCubit();
-  // });
+  setUp(() {
+    mockCubit = MockTopRatedMoviesCubit();
+  });
 
-  // Widget _makeTestableWidget(Widget body) {
-  //   return BlocProvider<TopRatedMoviesCubit>.value(
-  //     value: mockCubit,
-  //     child: MaterialApp(
-  //       home: body,
-  //     ),
-  //   );
-  // }
+  Widget _makeTestableWidget(Widget body) {
+    return BlocProvider<TopRatedMoviesCubit>.value(
+      value: mockCubit,
+      child: MaterialApp(
+        home: body,
+      ),
+    );
+  }
 
-  // ;
+  testWidgets('Page should display center progress bar when loading',
+      (WidgetTester tester) async {
+    when(mockCubit.stream)
+        .thenAnswer((_) => Stream.value(const ResultState<List<Movie>>(
+              loading: true,
+              data: null,
+              error: null,
+            )));
+    when(mockCubit.state).thenReturn(const ResultState<List<Movie>>(
+      loading: true,
+      data: null,
+      error: null,
+    ));
 
-  // testWidgets('Page should display list when data is loaded',
-  //     (WidgetTester tester) async {
-  //   when(mockCubit.stream)
-  //       .thenAnswer((_) => Stream.value(ResultState<List<Movie>>(
-  //             loading: false,
-  //             data: tMovieList,
-  //             error: null,
-  //           )));
+    final progressBarFinder = find.byType(CircularProgressIndicator);
+    final centerFinder = find.byType(Center);
 
-  //   when(mockCubit.state).thenReturn(ResultState<List<Movie>>(
-  //     loading: false,
-  //     data: tMovieList,
-  //     error: null,
-  //   ));
+    await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
 
-  //   when(mockCubit.fetchTopRatedMovies()).thenAnswer((_) => Future.value());
+    expect(centerFinder, findsOneWidget);
+    expect(progressBarFinder, findsOneWidget);
+  });
 
-  //   final listViewFinder = find.byType(ListView);
+  testWidgets('Page should display list when data is loaded',
+      (WidgetTester tester) async {
+    when(mockCubit.stream)
+        .thenAnswer((_) => Stream.value(ResultState<List<Movie>>(
+              loading: false,
+              data: tMovieList,
+              error: null,
+            )));
 
-  //   await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
+    when(mockCubit.state).thenReturn(ResultState<List<Movie>>(
+      loading: false,
+      data: tMovieList,
+      error: null,
+    ));
 
-  //   expect(listViewFinder, findsOneWidget);
-  // });
+    when(mockCubit.fetchTopRatedMovies()).thenAnswer((_) => Future.value());
 
-  // testWidgets('Page should display text with message when Error',
-  //     (WidgetTester tester) async {
-  //   when(mockCubit.state).thenReturn(const ResultState<List<Movie>>(
-  //     loading: false,
-  //     data: [],
-  //     error: 'Error Message',
-  //   ));
+    final listViewFinder = find.byType(ListView);
 
-  //   final textFinder = find.byKey(const Key('error_message'));
+    await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
 
-  //   await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
+    expect(listViewFinder, findsOneWidget);
+  });
 
-  //   expect(textFinder, findsOneWidget);
-  // });
+  testWidgets('Page should display text with message when Error',
+      (WidgetTester tester) async {
+    when(mockCubit.stream)
+        .thenAnswer((_) => Stream.value(const ResultState<List<Movie>>(
+              loading: false,
+              data: null,
+              error: 'Error Message',
+            )));
+    when(mockCubit.state).thenReturn(const ResultState<List<Movie>>(
+      loading: false,
+      data: null,
+      error: 'Error Message',
+    ));
 
-  // testWidgets('Page should display text with message when data is Empty',
-  //     (WidgetTester tester) async {
-  //   when(mockCubit.state).thenReturn(const ResultState<List<Movie>>(
-  //     loading: false,
-  //     data: [],
-  //     error: null,
-  //   ));
+    final textFinder = find.byKey(const Key('error_message'));
 
-  //   final textFinder = find.byKey(const Key('empty_message'));
+    await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
 
-  //   await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
+    expect(textFinder, findsOneWidget);
+  });
 
-  //   expect(textFinder, findsOneWidget);
-  // });
+  testWidgets('Page should display text with message when data is Empty',
+      (WidgetTester tester) async {
+    when(mockCubit.stream)
+        .thenAnswer((_) => Stream.value(const ResultState<List<Movie>>(
+              loading: false,
+              data: [],
+              error: null,
+            )));
+    when(mockCubit.state).thenReturn(const ResultState<List<Movie>>(
+      loading: false,
+      data: [],
+      error: null,
+    ));
+
+    final textFinder = find.byKey(const Key('empty_message'));
+
+    await tester.pumpWidget(_makeTestableWidget(const TopRatedMoviesPage()));
+
+    expect(textFinder, findsOneWidget);
+  });
 }

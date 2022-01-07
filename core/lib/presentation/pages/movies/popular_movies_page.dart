@@ -30,16 +30,16 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<PopularMoviesCubit, ResultState<List<Movie>>>(
           builder: (context, state) {
+            if (state.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
             if (state.data?.isEmpty == true) {
               return const Center(
                 key: Key('empty_message'),
                 child: Text('No Data'),
-              );
-            }
-
-            if (state.loading) {
-              return const Center(
-                child: CircularProgressIndicator(),
               );
             }
 

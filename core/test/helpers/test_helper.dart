@@ -23,9 +23,23 @@ import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_show_status.dart'
 import 'package:core/domain/usecases/tv_shows/get_watchlist_tv_shows.dart';
 import 'package:core/domain/usecases/tv_shows/remove_watchlist_tv_show.dart';
 import 'package:core/domain/usecases/tv_shows/save_watchlist_tv_show.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/movies/movie_detail_watchlist_cubit.dart';
 import 'package:core/presentation/bloc/movies/now_playing_movies_cubit.dart';
 import 'package:core/presentation/bloc/movies/popular_movies_cubit.dart';
 import 'package:core/presentation/bloc/movies/top_rated_movies_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/on_the_air_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/popular_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/top_rated_tv_shows_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_recommendations_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_status_cubit.dart';
+import 'package:core/presentation/bloc/tv_shows/tv_show_detail_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/movie_watchlist_cubit.dart';
+import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart';
+import 'package:core/presentation/pages/tv_shows/popular_tv_show_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 
@@ -68,6 +82,19 @@ import 'package:mockito/annotations.dart';
   PopularMoviesCubit,
   TopRatedMoviesCubit,
   NowPlayingMoviesCubit,
+  MovieDetailCubit,
+  MovieDetailStatusCubit,
+  MovieDetailRecommendationsCubit,
+  MovieDetailWatchlistCubit,
+  MovieWatchlistCubit,
+  PopularTvShowsCubit,
+  TopRatedTvShowsCubit,
+  OnTheAirTvShowsCubit,
+  TvShowDetailCubit,
+  TvShowDetailStatusCubit,
+  TvShowDetailRecommendationsCubit,
+  TvShowDetailWatchlistCubit,
+  TvShowWatchlistCubit,
 ], customMocks: [
   MockSpec<http.Client>(as: #MockHttpClient)
 ])
