@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:core/domain/entities/movies/movie_detail.dart';
 import 'package:core/domain/usecases/movies/get_movie_detail.dart';
-import 'package:core/presentation/bloc/movies/movie_detail_recommendations_cubit.dart';
 import 'package:core/presentation/bloc/result_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,8 +10,6 @@ class MovieDetailCubit extends Cubit<ResultState<MovieDetail>> {
   ) : super(ResultState<MovieDetail>.init());
 
   final GetMovieDetail _getMovieDetail;
-
-  StreamSubscription? _recommendationsScubscriptions;
 
   Future<void> fetchMovieDetail(int id) async {
     emit(state.copyWith(loading: true));

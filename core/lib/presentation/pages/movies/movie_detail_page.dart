@@ -78,7 +78,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
             }
 
             return Center(
-              child: Text(state.error ?? ''),
+              child: Text(state.error ?? 'Failed'),
             );
           }),
         ),

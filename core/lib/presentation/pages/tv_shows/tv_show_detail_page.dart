@@ -78,7 +78,7 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
             }
 
             return Center(
-              child: Text(state.error ?? ''),
+              child: Text(state.error ?? 'Failed'),
             );
           }),
         ),

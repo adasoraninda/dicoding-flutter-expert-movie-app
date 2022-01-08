@@ -56,7 +56,7 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
 
             return Center(
               key: const Key('error_message'),
-              child: Text(state.error ?? ''),
+              child: Text(state.error ?? 'Failed'),
             );
           },
         ),

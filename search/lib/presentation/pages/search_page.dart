@@ -77,36 +77,35 @@ class SearchPage extends StatelessWidget {
                 }
 
                 final filmType = state.type;
-                if (filmType == FilmType.movies && state.movies.isNotEmpty) {
+                if (filmType == FilmType.movies) {
                   final movies = state.movies;
-
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: movies.length,
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        return MovieCard(movies[index]);
-                      },
+                  if (movies.isNotEmpty) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: movies.length,
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          return MovieCard(movies[index]);
+                        },
+                      ),
+                    );
+                  }
+                  return const Expanded(
+                    child: Center(
+                      child: Text('No Result'),
                     ),
                   );
-                } else if (filmType == FilmType.tvShows &&
-                    state.tvShows.isNotEmpty) {
+                } else if (filmType == FilmType.tvShows) {
                   final tvShows = state.tvShows;
 
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: tvShows.length,
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        return TvShowCard(tvShows[index]);
-                      },
-                    ),
-                  );
-                } else {
-                  if (state.tvError != null || state.movError != null) {
+                  if (tvShows.isNotEmpty) {
                     return Expanded(
-                      child: Center(
-                        child: Text(state.movError ?? state.tvError ?? ''),
+                      child: ListView.builder(
+                        itemCount: tvShows.length,
+                        padding: const EdgeInsets.all(8),
+                        itemBuilder: (context, index) {
+                          return TvShowCard(tvShows[index]);
+                        },
                       ),
                     );
                   }
@@ -114,6 +113,13 @@ class SearchPage extends StatelessWidget {
                   return const Expanded(
                     child: Center(
                       child: Text('No Result'),
+                    ),
+                  );
+                } else {
+                  return Expanded(
+                    child: Center(
+                      child:
+                          Text(state.movError ?? state.tvError ?? 'No Result'),
                     ),
                   );
                 }

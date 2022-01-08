@@ -4,7 +4,7 @@ import 'package:core/core.dart';
 import 'package:core/data/models/tv_shows/tv_show_detail_model.dart';
 import 'package:core/data/models/tv_shows/tv_show_model.dart';
 import 'package:core/data/models/tv_shows/tv_show_response.dart';
-import 'package:http/http.dart' as http;
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 abstract class TvShowRemoteDataSource {
   Future<List<TvShowModel>> getOnTheAirTvShows();
@@ -24,7 +24,7 @@ class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
   static const apiKey = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
   static const baseUrl = 'https://api.themoviedb.org/3';
 
-  final http.Client client;
+  final SecureHttpClient client;
 
   TvShowRemoteDataSourceImpl({required this.client});
 
@@ -42,8 +42,7 @@ class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
 
   @override
   Future<List<TvShowModel>> getPopularTvShows() async {
-    final response =
-        await client.get(Uri.parse('$baseUrl/tv/popular?$apiKey'));
+    final response = await client.get(Uri.parse('$baseUrl/tv/popular?$apiKey'));
 
     if (response.statusCode != 200) {
       throw ServerException();
@@ -77,8 +76,8 @@ class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
 
   @override
   Future<List<TvShowModel>> getTvShowRecommendations(int id) async {
-    final response = await client
-        .get(Uri.parse('$baseUrl/tv/$id/recommendations?$apiKey'));
+    final response =
+        await client.get(Uri.parse('$baseUrl/tv/$id/recommendations?$apiKey'));
 
     if (response.statusCode != 200) {
       throw ServerException();
@@ -89,8 +88,8 @@ class TvShowRemoteDataSourceImpl implements TvShowRemoteDataSource {
 
   @override
   Future<List<TvShowModel>> searchTvShows(String query) async {
-    final response = await client
-        .get(Uri.parse('$baseUrl/search/tv?$apiKey&query=$query'));
+    final response =
+        await client.get(Uri.parse('$baseUrl/search/tv?$apiKey&query=$query'));
 
     if (response.statusCode != 200) {
       throw ServerException();

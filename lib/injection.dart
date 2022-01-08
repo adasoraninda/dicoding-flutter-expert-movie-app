@@ -43,7 +43,7 @@ import 'package:core/presentation/bloc/tv_shows/tv_show_detail_watchlist_cubit.d
 import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/on_the_air_tv_shows_cubit.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 import 'package:search/domain/usecases/search_movies.dart';
 import 'package:search/domain/usecases/search_tv_shows.dart';
 import 'package:search/presentation/bloc/search/search_bloc.dart';
@@ -132,5 +132,10 @@ void init() {
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => SecureHttpClient.build([
+        '549e6939a30144a61b1bf55da5b0cde7f81b394d8b7db197c0b7501efc15a285',
+        'f55f9ffcb83c73453261601c7e044db15a0f034b93c05830f28635ef889cf670',
+        '87dcd4dc74640a322cd205552506d1be64f12596258096544986b4850bc72706',
+        '28689b30e4c306aab53b027b29e36ad6dd1dcf4b953994482ca84bdc1ecac996',
+      ]));
 }

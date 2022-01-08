@@ -41,6 +41,7 @@ import 'package:core/presentation/bloc/watchlist/movie_watchlist_cubit.dart';
 import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart';
 import 'package:core/presentation/pages/tv_shows/popular_tv_show_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 import 'package:mockito/annotations.dart';
 
 @GenerateMocks([
@@ -95,7 +96,7 @@ import 'package:mockito/annotations.dart';
   TvShowDetailRecommendationsCubit,
   TvShowDetailWatchlistCubit,
   TvShowWatchlistCubit,
-], customMocks: [
-  MockSpec<http.Client>(as: #MockHttpClient)
+
+  SecureHttpClient
 ])
 void main() {}

@@ -3,8 +3,8 @@
 // Do not manually edit this file.
 
 import 'dart:async' as _i11;
-import 'dart:convert' as _i60;
-import 'dart:typed_data' as _i61;
+import 'dart:convert' as _i61;
+import 'dart:typed_data' as _i62;
 
 import 'package:core/core.dart' as _i15;
 import 'package:core/data/datasources/db/database_helper.dart' as _i10;
@@ -94,6 +94,7 @@ import 'package:core/presentation/bloc/watchlist/tv_show_watchlist_cubit.dart'
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:flutter_bloc/flutter_bloc.dart' as _i44;
 import 'package:http/http.dart' as _i9;
+import 'package:http_certificate_pinning/http_certificate_pinning.dart' as _i60;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:sqflite/sqflite.dart' as _i12;
 
@@ -1699,14 +1700,23 @@ class MockTvShowWatchlistCubit extends _i1.Mock
       returnValueForMissingStub: Future<void>.value()) as _i11.Future<void>);
 }
 
-/// A class which mocks [Client].
+/// A class which mocks [SecureHttpClient].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpClient extends _i1.Mock implements _i9.Client {
-  MockHttpClient() {
+class MockSecureHttpClient extends _i1.Mock implements _i60.SecureHttpClient {
+  MockSecureHttpClient() {
     _i1.throwOnMissingStub(this);
   }
 
+  @override
+  List<String> get allowedSHAFingerprints =>
+      (super.noSuchMethod(Invocation.getter(#allowedSHAFingerprints),
+          returnValue: <String>[]) as List<String>);
+  @override
+  set allowedSHAFingerprints(List<String>? _allowedSHAFingerprints) =>
+      super.noSuchMethod(
+          Invocation.setter(#allowedSHAFingerprints, _allowedSHAFingerprints),
+          returnValueForMissingStub: null);
   @override
   _i11.Future<_i9.Response> head(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(Invocation.method(#head, [url], {#headers: headers}),
@@ -1721,7 +1731,7 @@ class MockHttpClient extends _i1.Mock implements _i9.Client {
   _i11.Future<_i9.Response> post(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i60.Encoding? encoding}) =>
+          _i61.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#post, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -1731,7 +1741,7 @@ class MockHttpClient extends _i1.Mock implements _i9.Client {
   _i11.Future<_i9.Response> put(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i60.Encoding? encoding}) =>
+          _i61.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#put, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -1741,7 +1751,7 @@ class MockHttpClient extends _i1.Mock implements _i9.Client {
   _i11.Future<_i9.Response> patch(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i60.Encoding? encoding}) =>
+          _i61.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#patch, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -1751,7 +1761,7 @@ class MockHttpClient extends _i1.Mock implements _i9.Client {
   _i11.Future<_i9.Response> delete(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i60.Encoding? encoding}) =>
+          _i61.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#delete, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
@@ -1762,12 +1772,12 @@ class MockHttpClient extends _i1.Mock implements _i9.Client {
       (super.noSuchMethod(Invocation.method(#read, [url], {#headers: headers}),
           returnValue: Future<String>.value('')) as _i11.Future<String>);
   @override
-  _i11.Future<_i61.Uint8List> readBytes(Uri? url,
+  _i11.Future<_i62.Uint8List> readBytes(Uri? url,
           {Map<String, String>? headers}) =>
       (super.noSuchMethod(
               Invocation.method(#readBytes, [url], {#headers: headers}),
-              returnValue: Future<_i61.Uint8List>.value(_i61.Uint8List(0)))
-          as _i11.Future<_i61.Uint8List>);
+              returnValue: Future<_i62.Uint8List>.value(_i62.Uint8List(0)))
+          as _i11.Future<_i62.Uint8List>);
   @override
   _i11.Future<_i9.StreamedResponse> send(_i9.BaseRequest? request) =>
       (super.noSuchMethod(Invocation.method(#send, [request]),

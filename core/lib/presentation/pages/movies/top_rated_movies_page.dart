@@ -56,7 +56,7 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
 
             return Center(
               key: const Key('error_message'),
-              child: Text(state.error ?? ''),
+              child: Text(state.error ?? 'Failed'),
             );
           },
         ),

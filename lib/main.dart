@@ -20,7 +20,6 @@ import 'package:ditonton/injection.dart' as di;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:search/presentation/bloc/search/search_bloc.dart';
 import 'package:search/presentation/pages/search_page.dart';
 import 'package:core/presentation/bloc/movies/now_playing_movies_cubit.dart';
@@ -75,7 +74,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<TopRatedMoviesCubit>(),
         ),
-
         BlocProvider(
           create: (_) => di.locator<TvShowDetailCubit>(),
         ),

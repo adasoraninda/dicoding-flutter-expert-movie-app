@@ -5,8 +5,8 @@ import 'package:core/data/models/movies/movie_detail_model.dart';
 import 'package:core/data/models/movies/movie_response.dart';
 import 'package:core/utils/exception.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../json_reader.dart';
 import '../../../helpers/test_helper.mocks.dart';
@@ -16,10 +16,10 @@ void main() {
   const baseUrl = 'https://api.themoviedb.org/3';
 
   late MovieRemoteDataSourceImpl dataSource;
-  late MockHttpClient mockHttpClient;
+  late MockSecureHttpClient mockHttpClient;
 
   setUp(() {
-    mockHttpClient = MockHttpClient();
+    mockHttpClient = MockSecureHttpClient();
     dataSource = MovieRemoteDataSourceImpl(client: mockHttpClient);
   });
 

@@ -4,6 +4,7 @@ import 'package:core/data/models/movies/movie_detail_model.dart';
 import 'package:core/data/models/movies/movie_model.dart';
 import 'package:core/data/models/movies/movie_response.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 abstract class MovieRemoteDataSource {
   Future<List<MovieModel>> getNowPlayingMovies();
@@ -18,7 +19,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
   static const apiKey = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
   static const baseUrl = 'https://api.themoviedb.org/3';
 
-  final http.Client client;
+  final SecureHttpClient client;
 
   MovieRemoteDataSourceImpl({required this.client});
 
@@ -36,8 +37,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   @override
   Future<MovieDetailResponse> getMovieDetail(int id) async {
-    final response =
-        await client.get(Uri.parse('$baseUrl/movie/$id?$apiKey'));
+    final response = await client.get(Uri.parse('$baseUrl/movie/$id?$apiKey'));
 
     if (response.statusCode == 200) {
       return MovieDetailResponse.fromJson(json.decode(response.body));
