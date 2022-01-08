@@ -120,11 +120,11 @@ void main() {
         loading: false, data: tMovieDetail, error: null));
 
     when(mockMovieDetailRecommendationsCubit.stream).thenAnswer((_) =>
-        Stream.value(const ResultState<List<Movie>>(
-            loading: false, data: null, error: null)));
+        Stream.value(ResultState<List<Movie>>(
+            loading: false, data: tMovieList, error: null)));
     when(mockMovieDetailRecommendationsCubit.state).thenReturn(
-        const ResultState<List<Movie>>(
-            loading: false, data: null, error: null));
+        ResultState<List<Movie>>(
+            loading: false, data: tMovieList, error: null));
 
     when(mockMovieDetailStatusCubit.stream)
         .thenAnswer((_) => Stream.value(false));
@@ -160,11 +160,11 @@ void main() {
         loading: false, data: tMovieDetail, error: null));
 
     when(mockMovieDetailRecommendationsCubit.stream).thenAnswer((_) =>
-        Stream.value(const ResultState<List<Movie>>(
-            loading: false, data: null, error: null)));
+        Stream.value(ResultState<List<Movie>>(
+            loading: false, data: tMovieList, error: null)));
     when(mockMovieDetailRecommendationsCubit.state).thenReturn(
-        const ResultState<List<Movie>>(
-            loading: false, data: null, error: null));
+        ResultState<List<Movie>>(
+            loading: false, data: tMovieList, error: null));
 
     when(mockMovieDetailStatusCubit.stream)
         .thenAnswer((_) => Stream.value(false));
@@ -183,7 +183,7 @@ void main() {
 
     expect(find.byIcon(Icons.add), findsOneWidget);
 
-    await tester.tap(watchlistButton);
+    await tester.tap(watchlistButton, warnIfMissed: false);
     await tester.pump();
 
     expect(find.byType(AlertDialog), findsOneWidget);

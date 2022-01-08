@@ -22,6 +22,7 @@ dependencies:
   path_provider: ^2.0.2
   http_certificate_pinning: ^2.0.3
   firebase_crashlytics: ^2.4.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

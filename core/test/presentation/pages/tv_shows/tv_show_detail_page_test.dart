@@ -125,11 +125,11 @@ void main() {
             loading: false, data: tTvShowDetail, error: null));
 
     when(mockTvShowDetailRecommendationsCubit.stream).thenAnswer((_) =>
-        Stream.value(const ResultState<List<TvShow>>(
-            loading: false, data: null, error: null)));
+        Stream.value(ResultState<List<TvShow>>(
+            loading: false, data: tTvShowList, error: null)));
     when(mockTvShowDetailRecommendationsCubit.state).thenReturn(
-        const ResultState<List<TvShow>>(
-            loading: false, data: null, error: null));
+        ResultState<List<TvShow>>(
+            loading: false, data: tTvShowList, error: null));
 
     when(mockTvShowDetailStatusCubit.stream)
         .thenAnswer((_) => Stream.value(false));
@@ -166,11 +166,11 @@ void main() {
             loading: false, data: tTvShowDetail, error: null));
 
     when(mockTvShowDetailRecommendationsCubit.stream).thenAnswer((_) =>
-        Stream.value(const ResultState<List<TvShow>>(
-            loading: false, data: null, error: null)));
+        Stream.value(ResultState<List<TvShow>>(
+            loading: false, data: tTvShowList, error: null)));
     when(mockTvShowDetailRecommendationsCubit.state).thenReturn(
-        const ResultState<List<TvShow>>(
-            loading: false, data: null, error: null));
+        ResultState<List<TvShow>>(
+            loading: false, data: tTvShowList, error: null));
 
     when(mockTvShowDetailStatusCubit.stream)
         .thenAnswer((_) => Stream.value(false));
@@ -189,7 +189,7 @@ void main() {
 
     expect(find.byIcon(Icons.add), findsOneWidget);
 
-    await tester.tap(watchlistButton);
+    await tester.tap(watchlistButton,warnIfMissed: false);
     await tester.pump();
 
     expect(find.byType(AlertDialog), findsOneWidget);
