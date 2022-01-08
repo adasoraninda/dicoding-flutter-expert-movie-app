@@ -52,10 +52,11 @@ void main() {
       'Watchlist button should display add icon when movie not added to watchlist',
       (WidgetTester tester) async {
     when(mockTvShowDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<TvShowDetail>(
+        const ResultState<TvShowDetail>(
             loading: false, data: tTvShowDetail, error: null)));
-    when(mockTvShowDetailCubit.state).thenReturn(ResultState<TvShowDetail>(
-        loading: false, data: tTvShowDetail, error: null));
+    when(mockTvShowDetailCubit.state).thenReturn(
+        const ResultState<TvShowDetail>(
+            loading: false, data: tTvShowDetail, error: null));
 
     when(mockTvShowDetailRecommendationsCubit.stream).thenAnswer((_) =>
         Stream.value(const ResultState<List<TvShow>>(
@@ -84,10 +85,11 @@ void main() {
       'Watchlist button should dispay check icon when movie is added to wathclist',
       (WidgetTester tester) async {
     when(mockTvShowDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<TvShowDetail>(
+        const ResultState<TvShowDetail>(
             loading: false, data: tTvShowDetail, error: null)));
-    when(mockTvShowDetailCubit.state).thenReturn(ResultState<TvShowDetail>(
-        loading: false, data: tTvShowDetail, error: null));
+    when(mockTvShowDetailCubit.state).thenReturn(
+        const ResultState<TvShowDetail>(
+            loading: false, data: tTvShowDetail, error: null));
 
     when(mockTvShowDetailRecommendationsCubit.stream).thenAnswer((_) =>
         Stream.value(const ResultState<List<TvShow>>(
@@ -116,10 +118,11 @@ void main() {
       'Watchlist button should display Snackbar when added to watchlist',
       (WidgetTester tester) async {
     when(mockTvShowDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<TvShowDetail>(
+        const ResultState<TvShowDetail>(
             loading: false, data: tTvShowDetail, error: null)));
-    when(mockTvShowDetailCubit.state).thenReturn(ResultState<TvShowDetail>(
-        loading: false, data: tTvShowDetail, error: null));
+    when(mockTvShowDetailCubit.state).thenReturn(
+        const ResultState<TvShowDetail>(
+            loading: false, data: tTvShowDetail, error: null));
 
     when(mockTvShowDetailRecommendationsCubit.stream).thenAnswer((_) =>
         Stream.value(const ResultState<List<TvShow>>(
@@ -156,10 +159,11 @@ void main() {
       'Watchlist button should display AlertDialog when add to watchlist failed',
       (WidgetTester tester) async {
     when(mockTvShowDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<TvShowDetail>(
+        const ResultState<TvShowDetail>(
             loading: false, data: tTvShowDetail, error: null)));
-    when(mockTvShowDetailCubit.state).thenReturn(ResultState<TvShowDetail>(
-        loading: false, data: tTvShowDetail, error: null));
+    when(mockTvShowDetailCubit.state).thenReturn(
+        const ResultState<TvShowDetail>(
+            loading: false, data: tTvShowDetail, error: null));
 
     when(mockTvShowDetailRecommendationsCubit.stream).thenAnswer((_) =>
         Stream.value(const ResultState<List<TvShow>>(

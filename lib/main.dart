@@ -17,6 +17,7 @@ import 'package:core/presentation/pages/tv_shows/tv_show_detail_page.dart';
 import 'package:core/presentation/pages/watchlist/watchlist_page.dart';
 import 'package:core/utils/routes.dart';
 import 'package:ditonton/injection.dart' as di;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,9 @@ import 'package:core/presentation/bloc/tv_shows/tv_show_detail_watchlist_cubit.d
 import 'package:core/presentation/bloc/tv_shows/tv_show_detail_status_cubit.dart';
 import 'package:core/presentation/bloc/tv_shows/tv_show_detail_recommendations_cubit.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   di.init();
   runApp(MyApp());
 }

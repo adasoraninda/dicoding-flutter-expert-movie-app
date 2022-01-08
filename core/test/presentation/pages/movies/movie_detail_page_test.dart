@@ -50,9 +50,9 @@ void main() {
       'Watchlist button should display add icon when movie not added to watchlist',
       (WidgetTester tester) async {
     when(mockMovieDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<MovieDetail>(
+        const ResultState<MovieDetail>(
             loading: false, data: tMovieDetail, error: null)));
-    when(mockMovieDetailCubit.state).thenReturn(ResultState<MovieDetail>(
+    when(mockMovieDetailCubit.state).thenReturn(const ResultState<MovieDetail>(
         loading: false, data: tMovieDetail, error: null));
 
     when(mockMovieDetailRecommendationsCubit.stream).thenAnswer((_) =>
@@ -82,9 +82,9 @@ void main() {
       'Watchlist button should dispay check icon when movie is added to wathclist',
       (WidgetTester tester) async {
     when(mockMovieDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<MovieDetail>(
+        const ResultState<MovieDetail>(
             loading: false, data: tMovieDetail, error: null)));
-    when(mockMovieDetailCubit.state).thenReturn(ResultState<MovieDetail>(
+    when(mockMovieDetailCubit.state).thenReturn(const ResultState<MovieDetail>(
         loading: false, data: tMovieDetail, error: null));
 
     when(mockMovieDetailRecommendationsCubit.stream).thenAnswer((_) =>
@@ -114,9 +114,9 @@ void main() {
       'Watchlist button should display Snackbar when added to watchlist',
       (WidgetTester tester) async {
     when(mockMovieDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<MovieDetail>(
+        const ResultState<MovieDetail>(
             loading: false, data: tMovieDetail, error: null)));
-    when(mockMovieDetailCubit.state).thenReturn(ResultState<MovieDetail>(
+    when(mockMovieDetailCubit.state).thenReturn(const ResultState<MovieDetail>(
         loading: false, data: tMovieDetail, error: null));
 
     when(mockMovieDetailRecommendationsCubit.stream).thenAnswer((_) =>
@@ -154,9 +154,9 @@ void main() {
       'Watchlist button should display AlertDialog when add to watchlist failed',
       (WidgetTester tester) async {
     when(mockMovieDetailCubit.stream).thenAnswer((_) => Stream.value(
-        ResultState<MovieDetail>(
+        const ResultState<MovieDetail>(
             loading: false, data: tMovieDetail, error: null)));
-    when(mockMovieDetailCubit.state).thenReturn(ResultState<MovieDetail>(
+    when(mockMovieDetailCubit.state).thenReturn(const ResultState<MovieDetail>(
         loading: false, data: tMovieDetail, error: null));
 
     when(mockMovieDetailRecommendationsCubit.stream).thenAnswer((_) =>

@@ -27,7 +27,7 @@ void main() {
       'Should emit state [loading, success] when fetch is successfull',
       build: () {
         when(mockGetTvShowDetail.execute(tId))
-            .thenAnswer((_) async => Right(tTvShowDetail));
+            .thenAnswer((_) async => const Right(tTvShowDetail));
 
         return tvShowDetailCubit;
       },
@@ -38,7 +38,7 @@ void main() {
               data: null,
               error: null,
             ),
-            ResultState<TvShowDetail>(
+            const ResultState<TvShowDetail>(
               loading: false,
               data: tTvShowDetail,
               error: null,

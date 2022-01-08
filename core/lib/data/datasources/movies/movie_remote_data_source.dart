@@ -3,7 +3,6 @@ import 'package:core/core.dart';
 import 'package:core/data/models/movies/movie_detail_model.dart';
 import 'package:core/data/models/movies/movie_model.dart';
 import 'package:core/data/models/movies/movie_response.dart';
-import 'package:http/http.dart' as http;
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 abstract class MovieRemoteDataSource {

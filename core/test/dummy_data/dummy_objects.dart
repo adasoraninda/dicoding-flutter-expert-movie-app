@@ -56,7 +56,7 @@ final tMovieListMap = {
   'results': [tMovieModelMap]
 };
 
-final tMoveResponse = MovieResponse(movieList: const <MovieModel>[tMovieModel]);
+const tMoveResponse = MovieResponse(movieList: <MovieModel>[tMovieModel]);
 
 const tMovie = Movie(
   adult: false,
@@ -77,7 +77,7 @@ const tMovie = Movie(
 
 final tMovieList = [tMovie];
 
-final tMovieDetail = MovieDetail(
+const tMovieDetail = MovieDetail(
   adult: false,
   backdropPath: 'backdropPath',
   genres: [Genre(id: 1, name: 'Action')],
@@ -116,7 +116,7 @@ const tMovieDetailResponse = MovieDetailResponse(
   voteCount: 1,
 );
 
-final tWatchlistMovie = Movie.watchlist(
+const tWatchlistMovie = Movie.watchlist(
   id: 1,
   title: 'title',
   posterPath: 'posterPath',
@@ -211,7 +211,7 @@ const tTvShow = TvShow(
 
 final tTvShowList = [tTvShow];
 
-final tTvShowDetail = TvShowDetail(
+const tTvShowDetail = TvShowDetail(
   backdropPath: 'backdropPath',
   genres: [Genre(id: 1, name: 'Action')],
   id: 1,

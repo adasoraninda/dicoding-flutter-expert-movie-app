@@ -27,7 +27,7 @@ void main() {
       'Should emit state [loading, success] when fetch is successfull',
       build: () {
         when(mockGetMovieDetail.execute(tId))
-            .thenAnswer((_) async => Right(tMovieDetail));
+            .thenAnswer((_) async => const Right(tMovieDetail));
 
         return movieDetailCubit;
       },
@@ -38,7 +38,7 @@ void main() {
               data: null,
               error: null,
             ),
-            ResultState<MovieDetail>(
+            const ResultState<MovieDetail>(
               loading: false,
               data: tMovieDetail,
               error: null,

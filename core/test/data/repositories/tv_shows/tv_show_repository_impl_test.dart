@@ -161,7 +161,7 @@ void main() {
       final result = await repository.getTvShowDetail(tId);
       // assert
       verify(mockRemoteDataSource.getTvShowDetail(tId));
-      expect(result, equals(Right(tTvShowDetail)));
+      expect(result, equals(const Right(tTvShowDetail)));
     });
 
     test(
