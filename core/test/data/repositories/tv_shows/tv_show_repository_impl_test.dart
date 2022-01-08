@@ -48,7 +48,8 @@ void main() {
       final result = await repository.getOnTheAirTvShows();
       // assert
       verify(mockRemoteDataSource.getOnTheAirTvShows());
-      expect(result, equals(const Left(ServerFailure(''))));
+      expect(result,
+          equals(const Left(ServerFailure('Failed to connect to the server'))));
     });
 
     test(
@@ -91,7 +92,8 @@ void main() {
       // act
       final result = await repository.getPopularTvShows();
       // assert
-      expect(result, const Left(ServerFailure('')));
+      expect(
+          result, const Left(ServerFailure('Failed to connect to the server')));
     });
 
     test(
@@ -130,7 +132,8 @@ void main() {
       // act
       final result = await repository.getTopRatedTvShows();
       // assert
-      expect(result, const Left(ServerFailure('')));
+      expect(
+          result, const Left(ServerFailure('Failed to connect to the server')));
     });
 
     test(
@@ -171,7 +174,8 @@ void main() {
       final result = await repository.getTvShowDetail(tId);
       // assert
       verify(mockRemoteDataSource.getTvShowDetail(tId));
-      expect(result, equals(const Left(ServerFailure(''))));
+      expect(result,
+          equals(const Left(ServerFailure('Failed to connect to the server'))));
     });
 
     test(
@@ -216,7 +220,8 @@ void main() {
       final result = await repository.getTvShowRecommendations(tId);
       // assertbuild runner
       verify(mockRemoteDataSource.getTvShowRecommendations(tId));
-      expect(result, equals(const Left(ServerFailure(''))));
+      expect(result,
+          equals(const Left(ServerFailure('Failed to connect to the server'))));
     });
 
     test(
@@ -258,7 +263,8 @@ void main() {
       // act
       final result = await repository.searchTvShows(tQuery);
       // assert
-      expect(result, const Left(ServerFailure('')));
+      expect(
+          result, const Left(ServerFailure('Failed to connect to the server')));
     });
 
     test(
